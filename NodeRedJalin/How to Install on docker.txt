@@ -1,0 +1,65 @@
+docker run -it -p 1880:1880 -v node_red_data:/data --name mynodered nodered/node-red
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.21.2
+
+npm config set proxy http://10.131.18.14:3128
+npm config set https-proxy http://10.131.18.14:3128
+
+docker exec -it mynodered /bin/bash
+cd /data
+node-red-contrib-uibuilder
+node-red-node-mysql
+GRANT ALL PRIVILEGES ON jalin.* TO 'root'@'%';
+FLUSH PRIVILEGES;
+
+$ docker exec -it mynodered /bin/bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+https://gcore.com/learning/how-to-install-docker-ubuntu/
+
+
+var acquirer = msg.payload.acquirer;
+var binLower = msg.payload.binLower;
+var binPartId = msg.payload.binPartId;
+docker exec -it portainer /bin/bash
+
+if (jenis == 'Routing') {
+        msg.topic = "SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, " +
+                "CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, " +
+                "bd.bin_lower AS binLower, bd.bin_upper AS binUpper, " +
+                "bg.id AS idGw, '-', bg.name AS namaGw, " +
+                "CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, " +
+                "bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, " +
+                "CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, " +
+                "ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan " +
+                "FROM bin_participant bp " +
+                "RIGHT JOIN bin_details bd " +
+                "ON bp.gateway_id = bd.gateway_id " +
+                "LEFT JOIN bin_gateway bg " +
+                "ON bp.gateway_id = bg.id " +
+                "LEFT JOIN participant ap " +
+                "ON bp.participant_acq_id = ap.id " +
+                "LEFT JOIN participant ip " +
+                "ON bp.participant_iss_id = ip.id " +
+                "WHERE 1 = 1 ";
+
+        if (acquirer != '' && acquirer != undefined) {
+                msg.topic += "AND bp.participant_acq_id = '" + acquirer + "' " +
+                        "AND bd.bin_lower <= '" + binLower + "0000000000000' " +
+                        "AND bd.bin_upper >= '" + binLower + "9999999999999' ";
+        }
+        if (binPartId != '' && binPartId != undefined) {
+                msg.topic += "AND bp.id = '" + binPartId + "' ";
+        }
+
+        msg.topic += "ORDER BY bp.priority DESC, bd.bin_lower ASC; "
+}

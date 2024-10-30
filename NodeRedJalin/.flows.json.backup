@@ -1,0 +1,3294 @@
+[
+    {
+        "id": "b2b2a85f623ee8bb",
+        "type": "tab",
+        "label": "Login",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4983d460445b7886",
+        "type": "tab",
+        "label": "Menu",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5b6ceccc0b8f8113",
+        "type": "tab",
+        "label": "Audit",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "efc869c07b0e2986",
+        "type": "tab",
+        "label": "Command",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f0f8e6d71e9fc9c4",
+        "type": "tab",
+        "label": "Cek Koneksi",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "cea7ed5b0a0f01e6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "172.17.0.4",
+        "port": "3306",
+        "db": "jalin",
+        "tz": "+08:00",
+        "charset": "UTF8"
+    },
+    {
+        "id": "de4edb16e2fe9fda",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.mqttdashboard.com",
+        "port": "1883",
+        "clientid": "clientId-CodeMechanic",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1b6256ffd06a1a71",
+        "type": "MySQLdatabase",
+        "name": "ITMCORE",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "itmcore",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "2968a726ab12d19e",
+        "type": "MySQLdatabase",
+        "name": "Ren-SIT",
+        "host": "10.132.131.13",
+        "port": "3306",
+        "db": "itmcore",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "389dba188387bcce",
+        "type": "MySQLdatabase",
+        "name": "Ren-UAT",
+        "host": "10.132.131.19",
+        "port": "3306",
+        "db": "itmcore",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "1358ab37345160ad",
+        "type": "MySQLdatabase",
+        "name": "WLA",
+        "host": "10.132.144.12",
+        "port": "3306",
+        "db": "itmcore",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "7caae597ab540484",
+        "type": "MySQLdatabase",
+        "name": "STG",
+        "host": "10.132.17.3",
+        "port": "3306",
+        "db": "itmcore",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "6b15a72c08bd9030",
+        "type": "mysql",
+        "z": "b2b2a85f623ee8bb",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "1d89135f9362c6a9"
+            ]
+        ]
+    },
+    {
+        "id": "64b6d4a8cb5dfc5c",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "QUERY",
+        "func": "msg.topic = 'SELECT  '+\n            'Expense_ID, '+\n            'Expense_Name, '+\n            'Expense_Amount, '+\n            'DATE_FORMAT(Expense_Datetime, \"%Y-%m-%d %H:%i\") as Expense_DateTime, '+\n            'Expense_Remarks '+\n            'FROM tutorial.expenses;'\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "6b15a72c08bd9030"
+            ]
+        ]
+    },
+    {
+        "id": "8803ac67b6aace4b",
+        "type": "inject",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "64b6d4a8cb5dfc5c"
+            ]
+        ]
+    },
+    {
+        "id": "1d89135f9362c6a9",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cef801336e444de7",
+        "type": "mysql",
+        "z": "b2b2a85f623ee8bb",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 410,
+        "y": 340,
+        "wires": [
+            [
+                "a4c6acb84046bca4",
+                "d5c46af50f848ec9"
+            ]
+        ]
+    },
+    {
+        "id": "a24866634be830d0",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "QUERY",
+        "func": "msg.topic = 'SELECT  '+\n            // 'Expense_ID, '+\n            'Expense_Name, '+\n            'Expense_Amount, '+\n            'DATE_FORMAT(Expense_Datetime, \"%Y-%m-%d %H:%i\") as Expense_DateTime, '+\n            'Expense_Remarks '+\n            'FROM tutorial.expenses;'\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "cef801336e444de7"
+            ]
+        ]
+    },
+    {
+        "id": "a4c6acb84046bca4",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "d5c46af50f848ec9",
+        "type": "http response",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "4ec0502629967bd9",
+        "type": "http request",
+        "z": "b2b2a85f623ee8bb",
+        "name": "request",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1881/ecp/menu",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 300,
+        "y": 560,
+        "wires": [
+            [
+                "7779e000ad4d5618"
+            ]
+        ]
+    },
+    {
+        "id": "7779e000ad4d5618",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "82f8ae89bbe90771",
+        "type": "http in",
+        "z": "b2b2a85f623ee8bb",
+        "name": "expenses",
+        "url": "/tuts/expenses",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "a24866634be830d0"
+            ]
+        ]
+    },
+    {
+        "id": "7e1bdc3beee37a94",
+        "type": "http in",
+        "z": "b2b2a85f623ee8bb",
+        "name": "add",
+        "url": "/tuts/addexpense",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "261906f34d3e0f36"
+            ]
+        ]
+    },
+    {
+        "id": "261906f34d3e0f36",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "QUERY",
+        "func": "msg.topic = `INSERT INTO expenses (Expense_Name, Expense_Amount, Expense_Datetime, Expense_Remarks) `+\n`VALUES ('${msg.payload.Expense_Name}',${msg.payload.Expense_Amount},'${msg.payload.Expense_Datetime}','${msg.payload.Expense_Remarks}');`\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 400,
+        "wires": [
+            [
+                "ea5c2f2f4044b72a"
+            ]
+        ]
+    },
+    {
+        "id": "ea5c2f2f4044b72a",
+        "type": "mysql",
+        "z": "b2b2a85f623ee8bb",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "83015219f5223314"
+            ]
+        ]
+    },
+    {
+        "id": "83015219f5223314",
+        "type": "http response",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "4697ae187c635121",
+        "type": "inject",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Inject",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"Expense_Name\":\"Electric Bill\",\"Expense_Amount\":2400,\"Expense_Datetime\":\"2019-12-26 09:52:01\",\"Expense_Remarks\":\"Test VECO\"}",
+        "payloadType": "json",
+        "x": 150,
+        "y": 560,
+        "wires": [
+            [
+                "4ec0502629967bd9"
+            ]
+        ]
+    },
+    {
+        "id": "9c147c0df4a774bf",
+        "type": "http in",
+        "z": "b2b2a85f623ee8bb",
+        "name": "report",
+        "url": "/tuts/report",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "8880d274bb2af4e6"
+            ]
+        ]
+    },
+    {
+        "id": "8880d274bb2af4e6",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Query",
+        "func": "msg.topic = 'SELECT * FROM expense_report;'\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 480,
+        "wires": [
+            [
+                "f0d232750deddb15"
+            ]
+        ]
+    },
+    {
+        "id": "f0d232750deddb15",
+        "type": "mysql",
+        "z": "b2b2a85f623ee8bb",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "2bbc0275a66673e3",
+                "9e32fc53d3b72d85"
+            ]
+        ]
+    },
+    {
+        "id": "2bbc0275a66673e3",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "9e32fc53d3b72d85",
+        "type": "http response",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 510,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "dd89e0896485f1a9",
+        "type": "link in",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "links": [
+            "89e1a4ceac90b0d3"
+        ],
+        "x": 195,
+        "y": 20,
+        "wires": [
+            [
+                "35f1602c6036cfbb"
+            ]
+        ]
+    },
+    {
+        "id": "2e8364255f20bfde",
+        "type": "switch",
+        "z": "b2b2a85f623ee8bb",
+        "name": "modules",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Login",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Logout",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Startup",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 300,
+        "y": 80,
+        "wires": [
+            [
+                "b9b4546bca08157d"
+            ],
+            [
+                "3a9343d76bb40d2f"
+            ],
+            [
+                "8ce8a3f1d24b87b0"
+            ]
+        ]
+    },
+    {
+        "id": "b9b4546bca08157d",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Login",
+        "func": "console.log(\"Login\");\nconsole.log(\"    msg.tokennnn::: \" + msg.token);\nflow.set(\"\" + msg.token, msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 20,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "1a0844636fea3a4f"
+            ]
+        ]
+    },
+    {
+        "id": "3a9343d76bb40d2f",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Logout",
+        "func": "flow.set(msg.token, undefined);\nconsole.log(\"Logout\");\nconsole.log(\"    msg.tokennnn::: \" + msg.token);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 60,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "096608f9d8d74e86"
+            ]
+        ]
+    },
+    {
+        "id": "8ce8a3f1d24b87b0",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Startup",
+        "func": "console.log(\"Startup\");\nconsole.log(\"    msg.tokennnn::: \" + msg.token);\n\n//If there is not token return session undefined\nif(msg.token == undefined || msg.token == null)\n{\n    msg.session = undefined;\n    return msg;\n}\n\n//If there is token check if server side has details\nvar details = flow.get(msg.token);\n//If none, then return session undefined\nif(details == undefined || details == null)\n{\n    msg.session = undefined;\n}\n//If there is return to front end that session details\nelse\n{\n    //Session details\n    msg.session = \n    {\n        'uniqueid': details.session.uniqueid,\n        'user_id': details.session.user_id,\n        'username': details.session.username,\n        'fullname': details.session.fullname,\n        'database': details.config.database,\n        'container_id': details.config.container_id,\n        'container_name': details.config.container_name,\n        'start_Time': details.session.startTime,\n    };\n    \n    //User Details\n    msg.payload = \n    {\n        'user_id': details.user.user_id,\n        'isActive': details.user.isActive,\n        'username': details.user.username,\n        'fullname': details.user.fullname,\n        'avatar': details.user.avatar,\n        'database': details.config.database,\n        'container_id': details.config.container_id,\n        'container_name': details.config.container_name,\n    }\n}\n// console.log(\"Startup\");\n// console.log(\"    msg.tokennnn::: \" + msg.token);\n// console.log(\"msg.session.database::: \" + msg.session.database);\n// console.log(\"msg.session.container_id::: \" + msg.session.container_id);\n// console.log(\"msg.payload.fullname::: \" + msg.payload.fullname);\n// console.log(\"msg.payload.database::: \" + msg.payload.database);\n// console.log(\"msg.payload.container_id::: \" + msg.payload.container_id);\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "674cd421bd6552f6"
+            ]
+        ]
+    },
+    {
+        "id": "89e1a4ceac90b0d3",
+        "type": "link out",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "dd89e0896485f1a9"
+        ],
+        "x": 635,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1a0844636fea3a4f",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Login",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "674cd421bd6552f6",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Startup",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "token",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "096608f9d8d74e86",
+        "type": "debug",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Logout",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "34d03f32cf1dcf4c",
+        "type": "http in",
+        "z": "b2b2a85f623ee8bb",
+        "name": "login",
+        "url": "/ecp/login",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "b409efa4ec4dd692"
+            ]
+        ]
+    },
+    {
+        "id": "b409efa4ec4dd692",
+        "type": "function",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Query",
+        "func": "var username = msg.payload.username;\nvar password = msg.payload.password;\n\nmsg.topic = `SELECT * FROM t_usermaster \n             where username = '${username}' \n             and password = '${password}';`\n// console.info('Login: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "e614b56833a5599b"
+            ]
+        ]
+    },
+    {
+        "id": "e614b56833a5599b",
+        "type": "mysql",
+        "z": "b2b2a85f623ee8bb",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "50a352f3ccf62490"
+            ]
+        ]
+    },
+    {
+        "id": "50a352f3ccf62490",
+        "type": "http response",
+        "z": "b2b2a85f623ee8bb",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 490,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "35f1602c6036cfbb",
+        "type": "uibuilder",
+        "z": "b2b2a85f623ee8bb",
+        "name": "Jalin",
+        "topic": "",
+        "url": "Jalin",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "blank",
+        "extTemplate": "",
+        "showfolder": false,
+        "useSecurity": false,
+        "sessionLength": 432000,
+        "tokenAutoExtend": false,
+        "oldUrl": "Jalinn",
+        "reload": false,
+        "sourceFolder": "src",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "2e8364255f20bfde"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d77c9b41787b4bdc",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "Menu",
+        "url": "/ecp/menu",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "e5e2790dbe02f458"
+            ]
+        ]
+    },
+    {
+        "id": "e5e2790dbe02f458",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar member = msg.payload.member;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar date = msg.payload.date;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if(member != '') {\n                msg.topic += 'AND participant_type = \"' + member + '\" ';\n        }\n}\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_iss_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 AND oc.iss_participant_id != 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" +\n                \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        \n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC; \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT *, cp.id AS idCP \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT \" + \n                \"trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID' \" +\n                \"FROM transaction trans \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'Transaction') {\n        msg.topic = \"SELECT \" +\n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if (date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        if(rrn.length > 0) {\n                msg.topic += \"AND reff.content = '\" + rrn + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr;\";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS deskripsi FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id ; \";\n}\n\nif (jenis == undefined){\n        msg.topic == \"\";\n} else if (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database Lokal');\nconsole.info('Jenis: ' + jenis);\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\nconsole.info('parameter: ' + parameter);\n// console.info('limit: ' + limit);\n// console.info('container_id: ' + container_id);\nconsole.info('acquirer: ' + acquirer);\nconsole.info('binPartId: ' + binPartId);\nconsole.info('keterangan: ' + keterangan);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 60,
+        "wires": [
+            [
+                "1f383ee46044a61c"
+            ]
+        ]
+    },
+    {
+        "id": "1f383ee46044a61c",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 430,
+        "y": 60,
+        "wires": [
+            [
+                "79b527e2e0684419",
+                "c5d9d0e8bcd08012"
+            ]
+        ]
+    },
+    {
+        "id": "79b527e2e0684419",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Lokal",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c5d9d0e8bcd08012",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 590,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d9020067382ecb14",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "Picker",
+        "url": "/ecp/picker",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "0b35d6f49d2d0246"
+            ]
+        ]
+    },
+    {
+        "id": "0b35d6f49d2d0246",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Picker",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE 1 = 1 \";\n        if (parameter.length > 0 || parameter > 0) {\n                msg.topic += \"AND id = \" + parameter + \" ;\";\n        }\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" + \n        \"CONCAT(id, '-', name) AS concatName \" + \n        \"FROM participant WHERE participant_type = 'ACQ' \" +\n        \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugins'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE 1 = 1 \";\n        if (parameter.length > 0) {\n                msg.topic += \"AND id = \" + parameter + \" ;\";\n        }\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Members') {\n        msg.topic = \"SELECT participant_type AS memberId FROM participant GROUP BY participant_type ;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT id,state_type,description, \" + \n        \"CONCAT(state_type, '-', description) AS concatName \" + \n        \"FROM cfg_state_type ;\";\n}\nif (jenis == 'Participant') {\n        msg.topic = \"SELECT * FROM participant \" + \n        \"WHERE 1 = 1 \";\n        if(parameter.length > 0) {\n                msg.topic += \"AND id = \" + parameter + \" ;\";\n        }\n}\nif(jenis == 'NodeType') {\n        msg.topic = \"SELECT id,connection_type,description, \" +\n                \"CONCAT(id, '-', description) AS concatName \" +\n                \"FROM cfg_node_type WHERE 1 = 1 \";\n        if (parameter.length > 0) {\n                msg.topic += \"AND id = \" + parameter + \" ;\";\n        }\n}\n\nconsole.info('Picker Database Lokal');\nconsole.info('jenis: ' + jenis);\nconsole.info('parameter: ' + parameter);\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "77a6e466cf0b9991"
+            ]
+        ]
+    },
+    {
+        "id": "77a6e466cf0b9991",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 430,
+        "y": 140,
+        "wires": [
+            [
+                "8de7e38afd715657",
+                "669584b354f93dac"
+            ]
+        ]
+    },
+    {
+        "id": "8de7e38afd715657",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Lokal",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "669584b354f93dac",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 590,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e2dc0c70912dfa6e",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "pickerSit",
+        "url": "/ecp/pickerSit",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 340,
+        "wires": [
+            [
+                "0e40d6cb7da7cb8f"
+            ]
+        ]
+    },
+    {
+        "id": "0e40d6cb7da7cb8f",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query PickerSIT",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\nvar panPrefix = msg.payload.panPrefix;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar binPartId = msg.payload.binPartId;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE name = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" +\n                \"CONCAT(id, '-', name) AS concatName \" +\n                \"FROM participant WHERE participant_type = 'ACQ' \" +\n                \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugins'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE 1 = 1 \";\n        if(parameter != '') {\n                msg.topic += \"AND id = '\" + parameter + \"' \";\n        }\n        msg.topic += \";\";\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \"FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE trans.id = '\" + parameter + \"' \";\n}\n// if (jenis == 'TrxAttr') {\n//         msg.topic = \"SELECT CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n//         \"WHERE transaction_id = '\" + parameter + \"' \";\n// }\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT *, CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n        \"WHERE transaction_id = '\" + parameter + \"' \";\n        if (parameter.length > 0) {\n                msg.topic += \"AND transaction_id = '\" + parameter + \"' ;\";\n        }\n}\nif (jenis == 'PluginStates'){\n        msg.topic = \"SELECT id,state_type,description, \" + \n        \"CONCAT(state_type, '-', description) AS concatName \" + \n        \"FROM cfg_state_type ;\";\n}\nif (jenis == 'Routing') {\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" +\n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" +\n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" +\n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" +\n                \"WHERE 1 = 1 \";\n\n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" +\n                        \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" +\n                        \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC; \"\n}\n\nconsole.info('Picker Database SIT');\nconsole.info('Jenis: ' + jenis);\nconsole.info('Parameter: ' + parameter);\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 340,
+        "wires": [
+            [
+                "092d9001dfda65bc"
+            ]
+        ]
+    },
+    {
+        "id": "092d9001dfda65bc",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "2968a726ab12d19e",
+        "name": "",
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "251aec136a98a975",
+                "a1bd1e803e86e539"
+            ]
+        ]
+    },
+    {
+        "id": "251aec136a98a975",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result SIT",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a1bd1e803e86e539",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1a35cd6db2480a0a",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "MenuUAT",
+        "url": "/ecp/menuUat",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 460,
+        "wires": [
+            [
+                "ed651f524c6a7c25"
+            ]
+        ]
+    },
+    {
+        "id": "ed651f524c6a7c25",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu UAT",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar date = msg.payload.date;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar member = msg.payload.member;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if (member != '') {\n                msg.topic += \"AND participant_type = '\" + member + \"' \";\n        }\n}\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_iss_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" + \n                \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT *, cp.id AS idCP \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if(date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        if(rrn.length > 0) {\n                msg.topic += \"AND reff.content = '\" + rrn + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT * \" + \n                \"FROM transaction \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr ORDER BY transaction_id DESC \";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS deskripsi FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id ; \";\n}\n\nif (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database UAT');\n// console.info('Jenis: ' + jenis);\n// console.info('Database SIT: ');\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\n// console.info('parameter: ' + parameter);\n// console.info('limit: ' + limit);\n// console.info('container_id: ' + container_id);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 460,
+        "wires": [
+            [
+                "d557859e7eec4e28"
+            ]
+        ]
+    },
+    {
+        "id": "5ca6ff1d9c671b21",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "pickerUat",
+        "url": "/ecp/pickerUat",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 540,
+        "wires": [
+            [
+                "9f0985aa97b5264e"
+            ]
+        ]
+    },
+    {
+        "id": "9f0985aa97b5264e",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Picker UAT",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar binPartId = msg.payload.binPartId;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE name = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" +\n                \"CONCAT(id, '-', name) AS concatName \" +\n                \"FROM participant WHERE participant_type = 'ACQ' \" +\n                \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugin'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE id = '\" + parameter + \"' ;\";\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \"FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE trans.id = '\" + parameter + \"' \";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n        \"WHERE transaction_id = '\" + parameter + \"' \";\n}\nif (jenis == 'PluginStates') {\n        msg.topic = \"SELECT id,state_type,description, \" +\n                \"CONCAT(state_type, '-', description) AS concatName \" +\n                \"FROM cfg_state_type ;\";\n}\nif (jenis == 'Routing') {\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" +\n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" +\n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" +\n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" +\n                \"WHERE 1 = 1 \";\n\n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" +\n                        \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" +\n                        \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC; \"\n}\n\nconsole.info('Picker Database UAT');\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 540,
+        "wires": [
+            [
+                "a2697cf95665436a"
+            ]
+        ]
+    },
+    {
+        "id": "a2697cf95665436a",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "389dba188387bcce",
+        "name": "",
+        "x": 440,
+        "y": 540,
+        "wires": [
+            [
+                "929f96d8e739c392",
+                "49b306b8b06889bd"
+            ]
+        ]
+    },
+    {
+        "id": "929f96d8e739c392",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "49b306b8b06889bd",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "d557859e7eec4e28",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "389dba188387bcce",
+        "name": "",
+        "x": 440,
+        "y": 460,
+        "wires": [
+            [
+                "448333ec5168e99d",
+                "49f42a76da7e2091"
+            ]
+        ]
+    },
+    {
+        "id": "448333ec5168e99d",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Uat",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "49f42a76da7e2091",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "90ee1c8ab561f2c9",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "MenuSTG",
+        "url": "/ecp/menuStg",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 800,
+        "wires": [
+            [
+                "b911f4c372464c55"
+            ]
+        ]
+    },
+    {
+        "id": "b911f4c372464c55",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu STG",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar date = msg.payload.date;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar member = msg.payload.member;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if (member != '') {\n                msg.topic += \"AND participant_type = '\" + member + \"' \";\n        }\n}\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_acq_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower LIKE '\" + binLower + \"%' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT * \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if(date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        if(rrn.length > 0) {\n                msg.topic += \"AND reff.content = '\" + rrn + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT * \" + \n                \"FROM transaction \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr ORDER BY transaction_id DESC \";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS deskripsi FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id ; \";\n}\n\nif (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database STG');\n// console.info('Jenis: ' + jenis);\n// console.info('Database SIT: ');\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\n// console.info('parameter: ' + parameter);\n// console.info('limit: ' + limit);\n// console.info('container_id: ' + container_id);\nconsole.info('RRN: ' + rrn);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 800,
+        "wires": [
+            [
+                "e8a49ff8a13c253e"
+            ]
+        ]
+    },
+    {
+        "id": "b139716270ec9485",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "pickerStg",
+        "url": "/ecp/pickerStg",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 880,
+        "wires": [
+            [
+                "e5c4fdb21ccf7242"
+            ]
+        ]
+    },
+    {
+        "id": "e5c4fdb21ccf7242",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Picker STG",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar binPartId = msg.payload.binPartId;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE name = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" +\n                \"CONCAT(id, '-', name) AS concatName \" +\n                \"FROM participant WHERE participant_type = 'ACQ' \" +\n                \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugin'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE id = '\" + parameter + \"' ;\";\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \"FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE trans.id = '\" + parameter + \"' \";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n        \"WHERE transaction_id = '\" + parameter + \"' \";\n}\nif (jenis == 'Routing') {\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" +\n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" +\n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" +\n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" +\n                \"WHERE 1 = 1 \";\n\n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" +\n                        \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" +\n                        \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC; \"\n}\n\nconsole.info('Picker Database STG');\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 880,
+        "wires": [
+            [
+                "db389ecf0a3f5bde"
+            ]
+        ]
+    },
+    {
+        "id": "0cb747878f0ef1a7",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "f09675a09f148b6e",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "e8a49ff8a13c253e",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "7caae597ab540484",
+        "name": "STG",
+        "x": 490,
+        "y": 800,
+        "wires": [
+            [
+                "047892526e712d96",
+                "a91641a438b86f63"
+            ]
+        ]
+    },
+    {
+        "id": "047892526e712d96",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Prod",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "a91641a438b86f63",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "db389ecf0a3f5bde",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "7caae597ab540484",
+        "name": "STG",
+        "x": 510,
+        "y": 880,
+        "wires": [
+            [
+                "0cb747878f0ef1a7",
+                "f09675a09f148b6e"
+            ]
+        ]
+    },
+    {
+        "id": "b0371d3932d1524e",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "MenuSIT",
+        "url": "/ecp/menuSit",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 260,
+        "wires": [
+            [
+                "57c47b33cca9faff"
+            ]
+        ]
+    },
+    {
+        "id": "57c47b33cca9faff",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu SIT",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar date = msg.payload.date;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar member = msg.payload.member;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if (member != '') {\n                msg.topic += \"AND participant_type = '\" + member + \"' \";\n        }\n}\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_iss_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower <= '\" + binLower + \"0000000000000' \" + \n                \"AND bd.bin_upper >= '\" + binLower + \"9999999999999' \";\n        }   \n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC; \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT *, cp.id AS idCP \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg_Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if(date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        if(rrn.length > 0) {\n                msg.topic += \"AND reff.content = '\" + rrn + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT * \" + \n                \"FROM transaction \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr ORDER BY transaction_id DESC \";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS cType, p.sharedobject AS pluginName, cp.name AS containerPluginName \" + \n        \"FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id \" +\n        \"JOIN plugin p ON c.plugin_id = p.id \" +\n        \"LEFT JOIN container_plugin cp ON c.container_plugin_id = cp.id ;\";\n}\n\nif (jenis == undefined){\n        msg.topic == \"\";\n} else if (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database SIT');\nconsole.info('Jenis: ' + jenis);\n// console.info('Database SIT: ');\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\n// console.info('parameter: ' + parameter);\nconsole.info('limit: ' + limit);\n// console.info('rrn: ' + rrn.length);\n// console.info('date: ' + date);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 260,
+        "wires": [
+            [
+                "452b340779ccd757"
+            ]
+        ]
+    },
+    {
+        "id": "452b340779ccd757",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "2968a726ab12d19e",
+        "name": "",
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "d701cc6ee3567a06",
+                "ae78a5700c56e2c2"
+            ]
+        ]
+    },
+    {
+        "id": "d701cc6ee3567a06",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Sit",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ae78a5700c56e2c2",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "681b522e5bac4d7e",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "MenuWLA",
+        "url": "/ecp/menuWla",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 620,
+        "wires": [
+            [
+                "3f0d0562b7673183"
+            ]
+        ]
+    },
+    {
+        "id": "3f0d0562b7673183",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu WLA",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar date = msg.payload.date;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar member = msg.payload.member;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if (member != '') {\n                msg.topic += \"AND participant_type = '\" + member + \"' \";\n        }\n}\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_acq_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower LIKE '\" + binLower + \"%' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT * \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\n\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if(date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT * \" + \n                \"FROM transaction \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr ORDER BY transaction_id DESC \";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS deskripsi FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id ; \";\n}\n\nif (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database WLA');\n// console.info('Jenis: ' + jenis);\n// console.info('Database SIT: ');\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\n// console.info('parameter: ' + parameter);\n// console.info('limit: ' + limit);\n// console.info('container_id: ' + container_id);\nconsole.info('RRN: ' + rrn);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 620,
+        "wires": [
+            [
+                "1c74d4ac30e2db57"
+            ]
+        ]
+    },
+    {
+        "id": "4fe2f5306c092ae2",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "pickerWla",
+        "url": "/ecp/pickerWla",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 700,
+        "wires": [
+            [
+                "0eb572ca7d58515e"
+            ]
+        ]
+    },
+    {
+        "id": "0eb572ca7d58515e",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Picker WLA",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE name = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" +\n                \"CONCAT(id, '-', name) AS concatName \" +\n                \"FROM participant WHERE participant_type = 'ACQ' \" +\n                \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugin'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE id = '\" + parameter + \"' ;\";\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \"FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE trans.id = '\" + parameter + \"' \";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n        \"WHERE transaction_id = '\" + parameter + \"' \";\n}\n\nconsole.info('Picker Database WLA');\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 700,
+        "wires": [
+            [
+                "38b1b6491bb62f84"
+            ]
+        ]
+    },
+    {
+        "id": "acf0633d2b6b0fa8",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "b3b9029f35535f8b",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "1c74d4ac30e2db57",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "1358ab37345160ad",
+        "name": "WLA",
+        "x": 470,
+        "y": 620,
+        "wires": [
+            [
+                "fbbd7f8a6c280f97",
+                "b9a66517f6217180"
+            ]
+        ]
+    },
+    {
+        "id": "fbbd7f8a6c280f97",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Prod",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "b9a66517f6217180",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "38b1b6491bb62f84",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "1358ab37345160ad",
+        "name": "WLA",
+        "x": 490,
+        "y": 700,
+        "wires": [
+            [
+                "acf0633d2b6b0fa8",
+                "b3b9029f35535f8b"
+            ]
+        ]
+    },
+    {
+        "id": "b208469071af64f2",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "MenuPROD",
+        "url": "/ecp/menuProd",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 960,
+        "wires": [
+            [
+                "01e5304aea32bfee"
+            ]
+        ]
+    },
+    {
+        "id": "01e5304aea32bfee",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Menu PROD",
+        "func": "var jenis = msg.payload.jenis;\nvar keyType = msg.payload.keyType;\nvar parameter = msg.payload.parameter;\nvar acquirer = msg.payload.acquirer;\nvar binLower = msg.payload.binLower;\nvar limit = msg.payload.limit;\nvar containerId = msg.payload.containerId;\nvar date = msg.payload.date;\nvar binPartId = msg.payload.binPartId;\nvar keterangan = msg.payload.keterangan;\nvar rrn = msg.payload.rrn;\nvar member = msg.payload.member;\n\nif (jenis == 'Participant'){\n        msg.topic = \"SELECT * FROM participant WHERE 1=1 \";\n        if (member != '') {\n                msg.topic += \"AND participant_type = '\" + member + \"' \";\n        }\n}\n\nif(jenis == 'BinParticipant') {\n        msg.topic = \"SELECT CONCAT(ap.id, '-',ap.name) AS acqName, CONCAT(ip.id, '-',ip.name) AS isName,bg.name AS gwName, bp.* \" +\n        \"FROM bin_participant bp \" +\n        \"JOIN participant ap ON ap.id = bp.participant_acq_id \" +\n        \"JOIN participant ip ON ip.id = bp.participant_acq_id \" +\n        \"JOIN bin_gateway bg ON bg.id = bp.gateway_id \";\n        \n        if (binPartId != '') {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        if (keterangan != '' && keterangan != undefined) {\n                msg.topic += \"AND bp.description LIKE '%\" + keterangan + \"%' \";\n        }\n}\nif (jenis == 'OnlineConfig'){\n        msg.topic = \"SELECT CONCAT(ip.id,'-',ip.name) AS issuer, oc.container_plugin_name AS cpName, oc.* \" + \n                \"FROM online_config oc \" + \n                \"LEFT JOIN participant ip ON ip.id = oc.iss_participant_id \" +\n                \"WHERE oc.plugin_id = 0 \";\n}\nif (jenis == 'Routing'){\n        msg.topic = \"SELECT bp.id, bp.participant_acq_id AS acqId, ap.name AS acq, \" +\n                \"CONCAT(bp.participant_acq_id,'-', ap.name) AS namaAcq, \" + \n                \"bd.bin_lower AS binLower, bd.bin_upper AS binUpper, \" +\n                \"bg.id AS idGw, '-', bg.name AS namaGw, \" +\n                \"CONCAT(bg.id, '-', bg.name) AS NamaGateway, bp.id AS idBinPart, \" + \n                \"bp.priority prioritas, bp.participant_iss_id AS idIssuer, ip.name AS issuer, \" +\n                \"CONCAT(bp.participant_iss_id,'-', ip.name) AS namaIssuer, \" + \n                \"ip.container_plugin_name AS namaContainerPlugin, bp.rule, bp.description AS keterangan \" +\n                \"FROM bin_participant bp \" +\n                \"RIGHT JOIN bin_details bd \" +\n                \"ON bp.gateway_id = bd.gateway_id \" +\n                \"LEFT JOIN bin_gateway bg \" +\n                \"ON bp.gateway_id = bg.id \" +\n                \"LEFT JOIN participant ap \" +\n                \"ON bp.participant_acq_id = ap.id \" +\n                \"LEFT JOIN participant ip \" +\n                \"ON bp.participant_iss_id = ip.id \" + \n                \"WHERE 1 = 1 \";\n                \n        if (acquirer != '' && acquirer != undefined) {\n                msg.topic += \"AND bp.participant_acq_id = '\" + acquirer + \"' \" + \n                \"AND bd.bin_lower LIKE '\" + binLower + \"%' \";\n        }\n        if (binPartId != '' && binPartId != undefined) {\n                msg.topic += \"AND bp.id = '\" + binPartId + \"' \";\n        }\n        msg.topic += \"ORDER BY bp.priority DESC, bd.bin_lower ASC \"\n}\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"SELECT * \" + \n                \"FROM container_plugin cp \" + \n                \"JOIN plugin p on cp.plugin_id = p.id \" +\n                \"WHERE 1=1 \";\n        if (containerId != '') {\n                msg.topic += 'AND container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'ContainerPluginAtt'){\n        msg.topic = \"SELECT cpa.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_attr cpa \" +\n                \"JOIN container_plugin cp ON cpa.container_plugin_id = cp.id \";\n}\nif (jenis == 'ContainerPluginInstance'){\n        msg.topic = \"SELECT cpi.*, cp.name AS namaContainerPlugin \" + \n                \"FROM container_plugin_instance cpi \" +\n                \"JOIN container_plugin cp ON cpi.container_plugin_id = cp.id \";\n        if (containerId != '') {\n                msg.topic += 'AND cpi.container_id = \"' + containerId + '\" ';\n        }\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \", trans.id AS 'TrxID' FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE 1=1 \";\n\n        if(date != null || date != undefined) {\n                msg.topic += \"AND DATE_FORMAT(trans.dt,'%Y-%m-%d') = '\" + date + \"' \";\n        }\n        if(rrn.length > 0) {\n                msg.topic += \"AND reff.content = '\" + rrn + \"' \";\n        }\n        msg.topic += \"ORDER BY trans.id DESC \";\n}\nif (jenis == 'TransactionChart'){\n        msg.topic = \"SELECT * \" + \n                \"FROM transaction \"+\n                \"WHERE 1=1 \";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type;\";\n}\nif (jenis == 'MsgClass'){\n        msg.topic = \"SELECT * FROM cfg_msgclass;\";\n}\nif (jenis == 'MsgType'){\n        msg.topic = \"SELECT * FROM cfg_msgtype;\";\n}\nif (jenis == 'NodeType'){\n        msg.topic = \"SELECT * FROM cfg_node_type;\";\n}\nif (jenis == 'PanEntry'){\n        msg.topic = \"SELECT * FROM cfg_panentry;\";\n}\nif (jenis == 'PinEntry'){\n        msg.topic = \"SELECT * FROM cfg_pinentry;\";\n}\nif (jenis == 'PluginStatus'){\n        msg.topic = \"SELECT * FROM cfg_pluginstatus;\";\n}\nif (jenis == 'StateType'){\n        msg.topic = \"SELECT * FROM cfg_state_type;\";\n}\nif (jenis == 'BinGateway'){\n        msg.topic = \"SELECT * FROM bin_gateway;\";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT * FROM transaction_attr ORDER BY transaction_id DESC \";\n}\nif (jenis == 'Conversion') {\n        msg.topic = \"SELECT c.*, ct.description AS deskripsi FROM conversion c \" +\n        \"JOIN conversion_type ct on c.type_id = ct.id ; \";\n}\n\nif (limit || limit == undefined) {\n        msg.topic += \"LIMIT 50 ;\";\n}\nconsole.info('Menu Database PROD');\n// console.info('Jenis: ' + jenis);\n// console.info('Database SIT: ');\n// console.info('keyType: ' + msg.keyType);\n// console.info('Query: ' + msg.topic);\n// console.info('parameter: ' + parameter);\n// console.info('limit: ' + limit);\n// console.info('container_id: ' + container_id);\nconsole.info('RRN: ' + rrn);\nconsole.info('msg: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 960,
+        "wires": [
+            [
+                "2a4bbac1986f7e2c"
+            ]
+        ]
+    },
+    {
+        "id": "a02e1cecf63377e8",
+        "type": "http in",
+        "z": "4983d460445b7886",
+        "name": "pickerProd",
+        "url": "/ecp/pickerProd",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 1040,
+        "wires": [
+            [
+                "7e59fe2fa159f70a"
+            ]
+        ]
+    },
+    {
+        "id": "7e59fe2fa159f70a",
+        "type": "function",
+        "z": "4983d460445b7886",
+        "name": "Query Picker PROD",
+        "func": "var jenis = msg.payload.jenis;\nvar parameter = msg.payload.parameter;\n\nif(jenis == 'ContainerPlugin') {\n        msg.topic = \"SELECT * FROM container_plugin \" +\n        \"WHERE name = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Acquirer'){\n        msg.topic = \"SELECT id, name, \" +\n                \"CONCAT(id, '-', name) AS concatName \" +\n                \"FROM participant WHERE participant_type = 'ACQ' \" +\n                \"AND name LIKE 'EFTS%' ORDER BY name ;\";\n}\nif (jenis == 'KeyType'){\n        msg.topic = \"SELECT * FROM cfg_key_type \"+\n        \"WHERE key_type = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Plugin'){\n        msg.topic = \"SELECT * FROM plugin \"+\n        \"WHERE id = '\" + parameter + \"' ;\";\n}\nif(jenis == 'BinPart') {\n        msg.topic = \"SELECT * FROM bin_participant \" +\n        \"WHERE id = '\" + parameter + \"'\" +\n        \";\";\n}\nif (jenis == 'Containers') {\n        msg.topic = \"SELECT * FROM container ;\";\n}\nif (jenis == 'Transaction'){\n        msg.topic = \"SELECT \" + \n                \"DATE_FORMAT(trans.dt,'%Y-%m-%d %H:%i:%s') AS 'tanggal',trans.id AS 'Trx_ID', trans.participant_acq_id AS 'Acq ID', acq.name AS 'Acq Name' \" +\n                \", trans.participant_iss_id AS 'Iss ID', iss.name AS 'Iss Name', trans.msgclass AS 'Msg Class' \" +\n                \", msgc.description AS 'Class Desc', trans.msgtype AS 'Msg Type', msgt.description AS 'Type Desc' \" +\n                \", trans.result AS 'Result', res.description AS 'Result Desc', reff.content AS 'RRN'  \" +\n                \", res.description AS 'Result Desc', reff.content AS 'RRN' , format(trans.amount/100,2) AS 'Amount' \" +\n                \", prod.content AS 'Product', subprod.content AS 'Sub Product' \" +\n                \", IF(prcode.content IS NULL,'',prcode.content) AS 'Principal Code' \" +\n                \", IF(prcode.content = '','',IF(prcode.content = '360004',IF(subprod.content = 'ATMS','OFF-US/NET','ON-US/NET'),'OFF-US/NET')) AS 'Category' \" +\n                \", CONVERT_TZ(trans.dt,'+00:00','+07:00') AS DATE \" +\n                \", trans.tid AS 'Term Id', trans.uuid AS 'UUID', trans.refuuid AS 'Reff UUID', trans.reversaltries AS 'Rev Tries' \" +\n                \"FROM transaction trans \" +\n                \"LEFT JOIN participant acq ON trans.participant_acq_id = acq.id \" +\n                \"LEFT JOIN cfg_msgclass msgc ON trans.msgclass = msgc.id \" +\n                \"LEFT JOIN cfg_msgtype msgt ON trans.msgtype = msgt.id \" +\n                \"LEFT JOIN transaction_result res ON trans.result = res.id \" +\n                \"LEFT JOIN transaction_attr reff ON trans.id = reff.transaction_id AND reff.field = 'IN.RRN' \" +\n                \"LEFT JOIN participant iss ON trans.participant_iss_id = iss.id \" +\n                \"LEFT JOIN transaction_attr subprod ON trans.id = subprod.transaction_id AND subprod.field = 'IR.SUB_PRODUCT' \" +\n                \"LEFT JOIN transaction_attr prod ON trans.id = prod.transaction_id AND prod.field = 'IN.PROD' \" +\n                \"LEFT JOIN transaction_status stat ON trans.status = stat.id \" +\n                \"LEFT JOIN transaction_attr prcode ON trans.id = prcode.transaction_id AND prcode.field = 'IR.PRINCIPALS_CODE' \" +\n                \"WHERE trans.id = '\" + parameter + \"' \";\n}\nif (jenis == 'TrxAttr') {\n        msg.topic = \"SELECT CONCAT(field,': ',content) AS Kolom FROM transaction_attr \" +\n        \"WHERE transaction_id = '\" + parameter + \"' \";\n}\n\nconsole.info('Picker Database PROD');\nconsole.info('Query: ' + msg.topic);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1040,
+        "wires": [
+            [
+                "4e07ae3725d75c92"
+            ]
+        ]
+    },
+    {
+        "id": "aee5614354d43a97",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "56b591c022d066f2",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "2a4bbac1986f7e2c",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "1358ab37345160ad",
+        "name": "PROD",
+        "x": 490,
+        "y": 960,
+        "wires": [
+            [
+                "fef7e6c3d4549c4b",
+                "a447d6e6dd0695f8"
+            ]
+        ]
+    },
+    {
+        "id": "fef7e6c3d4549c4b",
+        "type": "debug",
+        "z": "4983d460445b7886",
+        "name": "Result Prod",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "a447d6e6dd0695f8",
+        "type": "http response",
+        "z": "4983d460445b7886",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "4e07ae3725d75c92",
+        "type": "mysql",
+        "z": "4983d460445b7886",
+        "mydb": "1358ab37345160ad",
+        "name": "PROD",
+        "x": 510,
+        "y": 1040,
+        "wires": [
+            [
+                "aee5614354d43a97",
+                "56b591c022d066f2"
+            ]
+        ]
+    },
+    {
+        "id": "8576766d7bb5aacd",
+        "type": "http in",
+        "z": "5b6ceccc0b8f8113",
+        "name": "ADD Audit",
+        "url": "/ecp/audit",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 40,
+        "wires": [
+            [
+                "f61a9c1ddd20e73d"
+            ]
+        ]
+    },
+    {
+        "id": "f61a9c1ddd20e73d",
+        "type": "function",
+        "z": "5b6ceccc0b8f8113",
+        "name": "QUERY",
+        "func": "// var username = msg.payload.userName;\nvar database = msg.payload.database;\nvar menu = msg.payload.menu;\nmsg.topic = `INSERT INTO audit (username, env, menu, activity_name, activities,datetime) `+\n`VALUES ('${msg.payload.fullName}','${database}','${menu}','${msg.payload.activityName}','${msg.payload.activities}','${msg.payload.datetime}');`\n\nconsole.info('database: ' + database);\nconsole.info('msg: ' + msg.topic);\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 40,
+        "wires": [
+            [
+                "6fc7cfa4c61beb9b"
+            ]
+        ]
+    },
+    {
+        "id": "6fc7cfa4c61beb9b",
+        "type": "mysql",
+        "z": "5b6ceccc0b8f8113",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 470,
+        "y": 40,
+        "wires": [
+            [
+                "4711932a899bb5ff",
+                "63e31691ca313fe5"
+            ]
+        ]
+    },
+    {
+        "id": "4711932a899bb5ff",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "63e31691ca313fe5",
+        "type": "http response",
+        "z": "5b6ceccc0b8f8113",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 650,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3ab63a9226fc65c9",
+        "type": "http in",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Update",
+        "url": "/ecp/update",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 70,
+        "y": 80,
+        "wires": [
+            [
+                "2b035316b97a55f4"
+            ]
+        ]
+    },
+    {
+        "id": "2b035316b97a55f4",
+        "type": "function",
+        "z": "5b6ceccc0b8f8113",
+        "name": "QUERY",
+        "func": "// var username = msg.payload.userName;\nvar jenis = msg.payload.jenis;\nvar database = msg.payload.database;\nvar idCP = msg.payload.idCP;\nvar setValue = msg.payload.setValue;\n\nif (jenis == 'ContainerPlugin'){\n        msg.topic = \"UPDATE container_plugin SET \" + setValue + \" ;\";\n}\n\nconsole.info('database: ' + database);\nconsole.info('msg: ' + msg.topic);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "2a8f59c1737d8ab6"
+            ]
+        ]
+    },
+    {
+        "id": "2c5e7ea22f4c08a3",
+        "type": "mysql",
+        "z": "5b6ceccc0b8f8113",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "Ren-Lokal",
+        "x": 490,
+        "y": 120,
+        "wires": [
+            [
+                "1c385abe4b37982b",
+                "2f8d6fcade7e47ac"
+            ]
+        ]
+    },
+    {
+        "id": "1c385abe4b37982b",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2f8d6fcade7e47ac",
+        "type": "http response",
+        "z": "5b6ceccc0b8f8113",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 650,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2a8f59c1737d8ab6",
+        "type": "switch",
+        "z": "5b6ceccc0b8f8113",
+        "name": "",
+        "property": "payload.database",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Lokal",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "SIT",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "UAT",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 110,
+        "y": 220,
+        "wires": [
+            [
+                "2c5e7ea22f4c08a3",
+                "cbd57c68037d7905"
+            ],
+            [
+                "fcf8b63f2de4712f",
+                "d9926b12724174a7"
+            ],
+            [
+                "9dc5d9eeb795925e",
+                "f9b6aa57c6092475"
+            ]
+        ]
+    },
+    {
+        "id": "fcf8b63f2de4712f",
+        "type": "mysql",
+        "z": "5b6ceccc0b8f8113",
+        "mydb": "2968a726ab12d19e",
+        "name": "",
+        "x": 480,
+        "y": 200,
+        "wires": [
+            [
+                "04a84b397ae6992c",
+                "b3244962ee91eec2"
+            ]
+        ]
+    },
+    {
+        "id": "04a84b397ae6992c",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Result Sit",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b3244962ee91eec2",
+        "type": "http response",
+        "z": "5b6ceccc0b8f8113",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9dc5d9eeb795925e",
+        "type": "mysql",
+        "z": "5b6ceccc0b8f8113",
+        "mydb": "389dba188387bcce",
+        "name": "",
+        "x": 480,
+        "y": 280,
+        "wires": [
+            [
+                "de664e8fd9f827fc",
+                "a7e7aea2a978ba74"
+            ]
+        ]
+    },
+    {
+        "id": "de664e8fd9f827fc",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Result Sit",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a7e7aea2a978ba74",
+        "type": "http response",
+        "z": "5b6ceccc0b8f8113",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 650,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cbd57c68037d7905",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "LOKAL",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d9926b12724174a7",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "SIT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "f9b6aa57c6092475",
+        "type": "debug",
+        "z": "5b6ceccc0b8f8113",
+        "name": "UAT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "351dba7c1091c862",
+        "type": "http in",
+        "z": "5b6ceccc0b8f8113",
+        "name": "Add",
+        "url": "/ecp/add",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 70,
+        "y": 380,
+        "wires": [
+            [
+                "4afe944891d14d37"
+            ]
+        ]
+    },
+    {
+        "id": "4afe944891d14d37",
+        "type": "function",
+        "z": "5b6ceccc0b8f8113",
+        "name": "QUERY",
+        "func": "// var username = msg.payload.userName;\nvar jenis = msg.payload.jenis;\nvar database = msg.payload.database;\nvar value = msg.payload.value;\n\nif (jenis == 'ParticipantAdd'){\n        msg.topic = \"INSERT INTO participant VALUES(\" + \n                value + \")\";\n}\nconsole.info('database: ' + database);\nconsole.info('msg: ' + msg.topic);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "2a8f59c1737d8ab6"
+            ]
+        ]
+    },
+    {
+        "id": "b0174b1c20a3901b",
+        "type": "ssh-exec",
+        "z": "efc869c07b0e2986",
+        "sshconfig": "-manual-",
+        "name": "localhost",
+        "host": "localhost",
+        "port": "22",
+        "username": "gunawan",
+        "x": 480,
+        "y": 120,
+        "wires": [
+            [
+                "3b590c71d61c6c65"
+            ]
+        ]
+    },
+    {
+        "id": "a14fcb57b33ea5c8",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": false,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "543c75563434e468",
+        "type": "inject",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "e9f82b7c8289857c"
+            ]
+        ]
+    },
+    {
+        "id": "1c292bdb3dacfe73",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "REN",
+        "func": "//msg.payload = \"ls --color=never -la\\n\";\n// msg.payload = \"systemctl status firewalld.service\\n\";\nvar parameter = msg.payload.parameter;\nmsg.payload = '/app/jalin_renaissance/renOnlineSrv.sh ' + \n    parameter + ' \\n logout';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 80,
+        "wires": [
+            [
+                "b0174b1c20a3901b"
+            ]
+        ]
+    },
+    {
+        "id": "3b590c71d61c6c65",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "buffer to string",
+        "func": "// msg.payload = {\"hasil\" : ':::: ' + msg.payload + ' ::::'};\nmsg.payload = msg.payload.toString();\n// console.info(\"info after: \" + msg.payload.hasil);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 120,
+        "wires": [
+            [
+                "a14fcb57b33ea5c8",
+                "56d4caaa7f255e97"
+            ]
+        ]
+    },
+    {
+        "id": "d1a2484cd3102d8b",
+        "type": "inject",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "ed1708f6bf6648b3"
+            ]
+        ]
+    },
+    {
+        "id": "ed1708f6bf6648b3",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "Run exit",
+        "func": "msg.payload = \"exit\\n\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 160,
+        "wires": [
+            [
+                "b0174b1c20a3901b"
+            ]
+        ]
+    },
+    {
+        "id": "6c151fcdc47d6c5a",
+        "type": "catch",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 660,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ab04e7a820f86cfe",
+        "type": "http in",
+        "z": "efc869c07b0e2986",
+        "name": "Command",
+        "url": "/ecp/command",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "1c292bdb3dacfe73"
+            ]
+        ]
+    },
+    {
+        "id": "56d4caaa7f255e97",
+        "type": "http response",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "statusCode": "200",
+        "headers": {
+            "data": "msg.payload"
+        },
+        "x": 880,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b0082e5183f9e840",
+        "type": "ssh-exec",
+        "z": "efc869c07b0e2986",
+        "sshconfig": "-manual-",
+        "name": "localhost",
+        "host": "localhost",
+        "port": "22",
+        "username": "gunawan",
+        "x": 520,
+        "y": 240,
+        "wires": [
+            [
+                "c513a2bc86cfbd9c"
+            ]
+        ]
+    },
+    {
+        "id": "ecf4c3ad30c6e4f6",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "Run ls -la",
+        "func": "msg.payload = \"ls --color=never -la\\n\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 300,
+        "wires": [
+            [
+                "b0082e5183f9e840"
+            ]
+        ]
+    },
+    {
+        "id": "e3849b45dfd56427",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "c513a2bc86cfbd9c",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "buffer to string",
+        "func": "msg.payload = msg.payload.toString();\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 240,
+        "wires": [
+            [
+                "e3849b45dfd56427"
+            ]
+        ]
+    },
+    {
+        "id": "13ba73a44258402b",
+        "type": "catch",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 680,
+        "y": 200,
+        "wires": [
+            [
+                "e3849b45dfd56427"
+            ]
+        ]
+    },
+    {
+        "id": "ca6dee205045fcaa",
+        "type": "exec",
+        "z": "efc869c07b0e2986",
+        "command": "ping google.com",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 600,
+        "y": 720,
+        "wires": [
+            [
+                "f00d9dcb4762347d"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9e0c21468743a652",
+        "type": "inject",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 720,
+        "wires": [
+            [
+                "ca6dee205045fcaa"
+            ]
+        ]
+    },
+    {
+        "id": "f00d9dcb4762347d",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "01a50dee34142ffe",
+        "type": "http request",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "/ecp/ssh",
+        "tls": "",
+        "persist": true,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 110,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cae62f60280b88fa",
+        "type": "exec queue",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "currentLine": {
+            "row": 5,
+            "column": 2
+        },
+        "command": "node $file",
+        "debugMode": false,
+        "outputs": 1,
+        "useSpawn": "false",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "javascript",
+        "template": "console.log(`\n{\n\t\"value\": \"exec queue\",\n\t\"purpose\":\"putting the ideas from the exec, template and queue nodes together\"\n}\n`)",
+        "output": "str",
+        "outputEmpty": false,
+        "vimMode": false,
+        "queue": 1,
+        "addpayCB": false,
+        "splitLine": false,
+        "cleanQueue": true,
+        "x": 390,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "278cdf345786f476",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": false,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "03cb62e1b59411f1",
+        "type": "http in",
+        "z": "efc869c07b0e2986",
+        "name": "Command SIT",
+        "url": "/ecp/commandSit",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "e38757a9ba7353e3"
+            ]
+        ]
+    },
+    {
+        "id": "e38757a9ba7353e3",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "REN SIT",
+        "func": "var parameter = msg.payload.parameter;\n// msg.payload = \"ls --color=never -la\\n\";\n\nmsg.payload = '/app/jalin_renaissance/renOnlineSrv.sh ' + \n    parameter + ' \\n';\n\n// msg.topic = '/app/jalin_renaissance/renOnlineSrv.sh ' + \n//     parameter + ' \\n';\n\nconsole.info('REN SIT: ');\nconsole.info('parameter: ' + parameter);\nconsole.info('msg: ' + msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "947d1790be053e05"
+            ]
+        ]
+    },
+    {
+        "id": "947d1790be053e05",
+        "type": "ssh-exec",
+        "z": "efc869c07b0e2986",
+        "sshconfig": "-manual-",
+        "name": "SIT",
+        "host": "10.132.130.26",
+        "port": "22",
+        "username": "renapp",
+        "x": 490,
+        "y": 340,
+        "wires": [
+            [
+                "16797627042e4cd4",
+                "b20d077409fc5145"
+            ]
+        ]
+    },
+    {
+        "id": "9e4df9644867e60b",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "16797627042e4cd4",
+        "type": "function",
+        "z": "efc869c07b0e2986",
+        "name": "buffer to string",
+        "func": "// console.info(\"2...... info before: \" + msg.payload);\nmsg.payload = {\"hasil\" : ':::: ' + msg.payload + ' ::::'};\n// msg.payload = msg.payload.toString();\nconsole.info(\"REN: \" + msg.payload.hasil);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 340,
+        "wires": [
+            [
+                "9e4df9644867e60b"
+            ]
+        ]
+    },
+    {
+        "id": "b20d077409fc5145",
+        "type": "http response",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "statusCode": "200",
+        "headers": {
+            "data": "msg.payload"
+        },
+        "x": 680,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e9f82b7c8289857c",
+        "type": "http request",
+        "z": "efc869c07b0e2986",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "cdfeb322de6de1b6"
+            ]
+        ]
+    },
+    {
+        "id": "cdfeb322de6de1b6",
+        "type": "debug",
+        "z": "efc869c07b0e2986",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "bccc5f3055dfdb76",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "LOCAL",
+        "server": "127.0.0.1",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 280,
+        "y": 60,
+        "wires": [
+            [
+                "c8144697dd6d3c29"
+            ]
+        ]
+    },
+    {
+        "id": "2734258a37d58410",
+        "type": "inject",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "connected",
+        "payloadType": "flow",
+        "x": 160,
+        "y": 540,
+        "wires": [
+            [
+                "9e336e23177ac3eb"
+            ]
+        ]
+    },
+    {
+        "id": "07511572eb8c6344",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "LOCAL",
+        "scope": [
+            "bccc5f3055dfdb76"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 20,
+        "wires": [
+            [
+                "c0c7c1be7ddc8e37"
+            ]
+        ]
+    },
+    {
+        "id": "c8144697dd6d3c29",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set LOCAL",
+        "rules": [
+            {
+                "t": "set",
+                "p": "localhost",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 60,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "c0c7c1be7ddc8e37",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set LOCAL",
+        "rules": [
+            {
+                "t": "set",
+                "p": "localhost",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 20,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "9e336e23177ac3eb",
+        "type": "debug",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "c1bf300f203d534b",
+        "type": "http in",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "checkMysql",
+        "url": "/ecp/checkMysql",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 20,
+        "wires": [
+            [
+                "bccc5f3055dfdb76",
+                "00b0b340e54a1356",
+                "9eb6eec7f89c2b44",
+                "883dc5deb6fb627f",
+                "48c965f9472cc600",
+                "c6c3fcca80cc3a70"
+            ]
+        ]
+    },
+    {
+        "id": "8e62266e36e7bb57",
+        "type": "function",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "Query Koneksi",
+        "func": "var vLokal = flow.get('localhost');\nvar vSit = flow.get('sit');\nvar vUat = flow.get('uat');\nvar vWla = flow.get('wla');\nvar vStg = flow.get('stg');\nvar vProd = flow.get('prod');\n// console.log('Koneksi:::: ');\n// console.log('Status Lokal:::: ' + vLokal);\n// console.log('Status SIT:::: ' + vSit);\n// console.log('Status Lokal:::: ' + vUat);\nmsg.payload = [{ lokal: vLokal, sit: vSit, uat: vUat, wla: vWla, stg: vStg, prod: vProd },];\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 80,
+        "wires": [
+            [
+                "e11b8b4544abb54b"
+            ]
+        ]
+    },
+    {
+        "id": "e11b8b4544abb54b",
+        "type": "http response",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "00b0b340e54a1356",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "SIT",
+        "server": "10.132.131.13",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "2b8b09aa9f167c1d"
+            ]
+        ]
+    },
+    {
+        "id": "a7e7d8d7794c2212",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set SIT",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sit",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 100,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "2b8b09aa9f167c1d",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set SIT",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sit",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 140,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "804fdda50eb2c073",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "SIT",
+        "scope": [
+            "00b0b340e54a1356"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "a7e7d8d7794c2212"
+            ]
+        ]
+    },
+    {
+        "id": "9760411d8eecab1a",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "UAT",
+        "scope": [
+            "9eb6eec7f89c2b44"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "74aa95f4b322e94e"
+            ]
+        ]
+    },
+    {
+        "id": "9eb6eec7f89c2b44",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "UAT",
+        "server": "10.132.131.19",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 290,
+        "y": 220,
+        "wires": [
+            [
+                "86810526f98c8e7b"
+            ]
+        ]
+    },
+    {
+        "id": "74aa95f4b322e94e",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set UAT",
+        "rules": [
+            {
+                "t": "set",
+                "p": "uat",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 180,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "86810526f98c8e7b",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set UAT",
+        "rules": [
+            {
+                "t": "set",
+                "p": "uat",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 220,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "883dc5deb6fb627f",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "WLA",
+        "server": "10.132.144.12",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 290,
+        "y": 300,
+        "wires": [
+            [
+                "4468aea20b92850b"
+            ]
+        ]
+    },
+    {
+        "id": "4468aea20b92850b",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set WLA",
+        "rules": [
+            {
+                "t": "set",
+                "p": "wla",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "e2db9b3ecaf33796",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "WLA",
+        "scope": [
+            "883dc5deb6fb627f"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 260,
+        "wires": [
+            [
+                "851a46272b54b621"
+            ]
+        ]
+    },
+    {
+        "id": "851a46272b54b621",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set WLA",
+        "rules": [
+            {
+                "t": "set",
+                "p": "wla",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "19d6ac32a8fd22c2",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "STG",
+        "scope": [
+            "48c965f9472cc600"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 340,
+        "wires": [
+            [
+                "3a6708812835e0cd"
+            ]
+        ]
+    },
+    {
+        "id": "3a6708812835e0cd",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set PROD",
+        "rules": [
+            {
+                "t": "set",
+                "p": "stg",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2b00a8db25b085ad",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set PROD",
+        "rules": [
+            {
+                "t": "set",
+                "p": "stg",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "8e62266e36e7bb57"
+            ]
+        ]
+    },
+    {
+        "id": "48c965f9472cc600",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "STG",
+        "server": "10.132.17.3",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 290,
+        "y": 380,
+        "wires": [
+            [
+                "2b00a8db25b085ad"
+            ]
+        ]
+    },
+    {
+        "id": "36fdc552fa1650c0",
+        "type": "catch",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "PROD",
+        "scope": [
+            "c6c3fcca80cc3a70"
+        ],
+        "uncaught": false,
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "baf2d6645e9552cb"
+            ]
+        ]
+    },
+    {
+        "id": "baf2d6645e9552cb",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set PROD",
+        "rules": [
+            {
+                "t": "set",
+                "p": "prod",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6c3fcca80cc3a70",
+        "type": "tcp request",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "PROD",
+        "server": "10.132.5.13",
+        "port": "3306",
+        "out": "char",
+        "ret": "string",
+        "splitc": "\\n",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "73fdfe7d3a4e9296"
+            ]
+        ]
+    },
+    {
+        "id": "73fdfe7d3a4e9296",
+        "type": "change",
+        "z": "f0f8e6d71e9fc9c4",
+        "name": "set PROD",
+        "rules": [
+            {
+                "t": "set",
+                "p": "prod",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    }
+]

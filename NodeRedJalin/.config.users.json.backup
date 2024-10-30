@@ -1,0 +1,61 @@
+{
+    "_": {
+        "editor": {
+            "view": {
+                "view-store-zoom": false,
+                "view-store-position": false,
+                "view-show-grid": true,
+                "view-snap-grid": true,
+                "view-grid-size": "20",
+                "view-node-status": true,
+                "view-node-show-label": true,
+                "view-show-tips": true,
+                "view-show-welcome-tours": true
+            },
+            "tours": {
+                "welcome": "3.1.3"
+            },
+            "dialog": {
+                "export": {
+                    "pretty": true
+                }
+            }
+        },
+        "debug": {
+            "filter": "filterAll",
+            "filteredNodes": [
+                "1a0844636fea3a4f",
+                "096608f9d8d74e86",
+                "7779e000ad4d5618",
+                "2bbc0275a66673e3",
+                "1d89135f9362c6a9",
+                "a4c6acb84046bca4",
+                "674cd421bd6552f6",
+                "a50b5be860c28ead",
+                "2998b3e159c9c473",
+                "73a4530a136d62e2",
+                "79b527e2e0684419",
+                "8de7e38afd715657",
+                "a0eb3796cc3dc12d",
+                "251aec136a98a975",
+                "a14fcb57b33ea5c8",
+                "e3849b45dfd56427",
+                "f00d9dcb4762347d",
+                "5e9c78ecb444eeab",
+                "89a9eba3.64b928",
+                "df0237a0.3141f8",
+                "067388d0f5f0bc63",
+                "49702ca370d9f756",
+                "b35308b00d181b45",
+                "6bf711436e4c78b2",
+                "6c5a597dd98e3c69",
+                "15f2032281da3432",
+                "558c5a8f111dbef9",
+                "17e18b61b0e44bea",
+                "2325d1e2296efe00",
+                "8d784c3856a0bbd4",
+                "9e336e23177ac3eb"
+            ]
+        }
+    }
+}

@@ -1,0 +1,16 @@
+[
+  "vue",
+  "vuex",
+  "bootstrap",
+  "bootstrap-vue",
+  "bootstrap-icons",
+  "jquery",
+  "socket.io",
+  "http-vue-loader",
+  "vue-router",
+  "chart.js",
+  "axios",
+  "paho-mqtt",
+  "md5",
+  "@insectos/ssh-exec"
+]
