@@ -141,9 +141,9 @@
                     </b-form-input>
             </b-col>
             <b-col>
-                <b-input-group-append>
+                <!-- <b-input-group-append>
                     <b-button :disabled="!rrn" @click="onChange = ''">Cari</b-button>
-                </b-input-group-append>
+                </b-input-group-append> -->
             </b-col>
         </b-row>
         <!-- <b-row style="margin-top:5%;margin-left:5%;margin-right:5%;"> -->
@@ -170,7 +170,7 @@
             </template>
             <template #cell(actions)="data">
                 <b-button size="sm" @click="cekRouting(data.item, $event.target)" class="mr-1">
-                Cek Routingan
+                Cek Routing
                 </b-button>
             </template>
         </b-table>
@@ -182,16 +182,40 @@
             <!-- <b-row>
                 <b-col><pre>{{ infoModal.iia }}</pre></b-col>
             </b-row> -->
-            <b-table striped hover 
+            <b-table 
                 :items="infoRouting.content" 
                 :fields="infoRouting.fields"
-                :filter="filter"
-                :filter-included-fields="filterOn"
                 stacked="md"
-                show-empty
-                small
-                @filtered="onFiltered">
+                show-empty>
+                <template 
+                    :slot="field.key" 
+                    v-for="field in editableFields"
+                    slot-scope="{ item, value }"
+                >
+                <!-- <span v-if="!item.editing">
+                    {{ value }}
+                </span> -->
+                <b-input v-else v-model="item.temp[field.key]" @keydown.enter.exact="doSave(item)"></b-input>
+                </template>
+                <template #cell(actions)="row">
+                    <b-btn @click="doEdit(row)" variant="primary">
+                        Edit    
+                    </b-btn>
+                    <b-btn @click="doSave(row)" variant="success">
+                        Save
+                    </b-btn>
+                    <b-btn @click="doCancel(row)" variant="info">
+                        Cancel
+                    </b-btn>
+                </template>
+                <!-- <template v-slot:cell(idIssuer)="row">
+                    <b-form-input v-model="row.item.idIssuer" />
+                </template> -->
+                <!-- <template v-slot:cell()="{ item, field: { key } }">
+                    <b-form-input v-model="item[key]" />
+                </template> -->
             </b-table>
+            
         </b-modal>
         
     </b-container>
@@ -316,7 +340,7 @@ module.exports = {
                 iia: '',
             },
             selectedDatabase:'SIT',
-            database: [],
+            database: ['SIT', 'UAT', 'PROD'],
             picker: '/ecp/picker',
             menu: '/ecp/menu',
             filteredItems: [],
@@ -332,48 +356,64 @@ module.exports = {
                 title: '',
                 content: [],
                 iia: '',
-                fields: [{
+                fields: [
+                    { key: 'actions', class: 'text-center' },
+                    {
                         key: 'id', 
                         label: 'Bin Part ID',
                         sortable: true,
-                        filterByFormatted: true
+                        filterByFormatted: true, 
+                        editable: true
                     },{
                         key: 'namaAcq', 
                         label: 'Nama Acquirer',
                         sortable: true,
-                        filterByFormatted: true
+                        filterByFormatted: true, 
+                        editable: true
                     },
                     {
                         key: 'binLower',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'NamaGateway',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'prioritas',
                         label: 'prioritas',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'idIssuer',
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'namaIssuer',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'namaContainerPlugin',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'keterangan',
-                        sortable: true
+                        sortable: true, 
+                        editable: true
                     },
                     {
                         key: 'rule',
                         sortable: true,
                         width: 10,
+                        editable: true
                         
-                    }
+                    },
                 ],
             },
             stop: false,
@@ -394,9 +434,15 @@ module.exports = {
     computed: {
         totalRows() {
             return this.items.length;
+        },
+        editableFields() {
+            return this.infoRouting.fields.filter(field => { return field.editable === true })
         }
     },
     methods: {
+        doEdit() {
+            console.log('doEdit');
+        },
         refresh(isStop){
             console.log('refresh: ' + isStop);
             if(!isStop) {
@@ -454,15 +500,19 @@ module.exports = {
                     // this.infoModal.content = resp.data;
                     resp.data.forEach(element => {
                         let field = element.field;
-                        // console.log('element content: ' + field);
+                        let Kolom = element.Kolom;
+                        console.log('element content: ' + field);
+                        console.log('Kolom: ' + Kolom);
                         if(field == undefined) {
                             console.log('undefined content: ' + field);
                         } else {
-                            // console.log('field: ' + field);
+                            console.log('field: ' + field);
                             // console.log('content: ' + element.content);
                             if(field == 'IN.PAN_PREFIX') {
                                 if(element.content != '') {
                                     prefix = element.content;
+                                } else if(mt == '134') {
+                                    prefix = '333333';
                                 }
                             }
                             if(field == 'IN.PARTACQ') {
@@ -615,7 +665,7 @@ module.exports = {
             
         },
         checkMysql(){
-            // console.log("selectedDatabase: "  + this.selectedDatabase);
+            console.log("selectedDatabase: "  + this.selectedDatabase);
             // this.database = null;
             var db = this.selectedDatabase;
             this.picker = '/ecp/picker';

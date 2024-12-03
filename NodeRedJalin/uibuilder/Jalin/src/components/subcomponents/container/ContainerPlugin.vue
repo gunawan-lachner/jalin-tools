@@ -123,8 +123,8 @@
             show-empty
             small
             @filtered="onFiltered">
-            <template #cell(idCP)="data">
-                <b-button variant="link" @click="duplicate(false, data, $event.target)">{{ data.value }}</b-button>
+            <template #cell(idCP)="row">
+                <b-button variant="link" @click="duplicate(false, row, $event.target)">{{ row.value }}</b-button>
             </template>
             <template #cell(in_next_plugin)="data">
                 <b-button variant="link" @click="getContainerPlugin(data.value, $event.target)">{{ data.value }}</b-button>
@@ -570,6 +570,7 @@ module.exports = {
             isValidId:false,
             lastData:[],
             dataLama:'',
+            dataBaru:'',
             values:'',
             // activities:'',
             // selectedInPluginForm:'',
@@ -596,25 +597,31 @@ module.exports = {
         },
         idState() {
             console.log('idState: ' + this.formUpdate.idCP);
-            // console.log('id length: ' + this.formUpdate.idCP.length);
+            console.log('isDuplicate: ' + this.isDuplicate);
             if(this.formUpdate.idCP > 0) {
                 console.log('idState11111: ' + this.formUpdate.idCP);
-                var ok = false;
-                axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: this.formUpdate.idCP })
-                .then((resp) => {
-                    if(resp.data.length>0) {
-                        console.log("isValidId tidak valid");
-                        this.errormessage = "ID sudah digunakan.";
-                        this.isValidId = false;
-                    } else{
-                        console.log("isValidId valid");
-                        this.errormessage = "";
-                        this.isValidId = true;
-                    }
-                }).catch((error) => {console.log(error);});
-                return this.isValidId;
+                // var ok = false;
+                if(this.isDuplicate) {
+                    axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: this.formUpdate.idCP })
+                    .then((resp) => {
+                        if(resp.data.length>0) {
+                            console.log("isValidId tidak valid");
+                            this.errormessage = "ID sudah digunakan.";
+                            this.isValidId = false;
+                        } else{
+                            console.log("isValidId valid");
+                            this.errormessage = "";
+                            this.isValidId = true;
+                        }
+                    }).catch((error) => {console.log(error);});
+                    return this.isValidId;
+                } else {
+                    this.errormessage = "";
+                    this.isValidId = true;
+                    return this.isValidId;
+                }
             } else {
-                this.errormessage = "ID tidak boleh kosong atau -.";
+                this.errormessage = "ID tidak boleh kosong atau -";
                 return false;
             }
             // return this.formUpdate.id.length > 0 ? true : false
@@ -735,6 +742,7 @@ module.exports = {
             // console.log("tombol: :::: " + tombol);
             // this.editFormModal.title = 'Duplicate dari Container Plugin ID : ' + id;
             this.datas = data;
+            this.isDuplicate = isDuplicate;
 
             if(isDuplicate) {
                 this.editFormModal.title = 'Duplicate dari Container Plugin ID : ' + this.datas.item.idCP;
@@ -803,6 +811,7 @@ module.exports = {
         },
         handleSubmit() {
             console.log("handleSubmit: " + this.checkFormValidity());
+            console.log("isValidId: " + this.isValidId);
             // Exit when the form isn't valid
             if (!this.checkFormValidity() || !this.isValidId) {
                 return
@@ -811,7 +820,7 @@ module.exports = {
                 if(this.formUpdate.isDuplicate){
                     // this.create();
                 } else {
-                    // this.update();
+                    this.update();
                 }
                 // this.audit();
                 // this.update();
@@ -824,26 +833,52 @@ module.exports = {
         prepareAudit(){
             console.log('prepareAudit');
             var activity = "Edit Container Plugin";
+
+            var id = this.formUpdate.idCP;
+            var startupOrder = this.formUpdate.startupOrder;
+            var containerPluginName = this.formUpdate.containerPluginName;
+            var queue = this.formUpdate.queue;
+            var inNextPlugin = this.formUpdate.inNextPlugin;
+            var outNextPlugin = this.formUpdate.outNextPlugin;
+            var listen = this.formUpdate.listen;
+            var connectTo = this.formUpdate.connectTo;
+            var instances = this.formUpdate.instances;
+            var maxInstances = this.formUpdate.maxInstances;
+            var flappingIgnoreTime = this.formUpdate.flappingIgnoreTime;
+            var responseTime = this.formUpdate.responseTime;
+            var createDinamically = this.formUpdate.createDinamically;
+            var comments = this.formUpdate.comments;
+
+            var containerId = this.selectedContainerForm;
+            var pluginId = this.selectedPluginForm;
+            var state = this.selectedPluginStateForm;
+            var nodeType = this.selectedNodeTypeForm;
+
             if(this.formUpdate.isDuplicate){
                 console.log('isDuplicate: True');
                 activity = "Duplicate Container Plugin";
                 var activities = '';
-                this.values = "VALUES(" + this.formUpdate.idCP + ", " + this.selectedContainerForm + ", " + 
-                    this.selectedPluginForm + ", " + this.formUpdate.containerPluginName + ", " + 
-                    this.selectedPluginStateForm + ", " + this.formUpdate.listen + ", " + 
-                    this.formUpdate.instances + ", " + this.formUpdate.inNextPlugin + ", " + 
-                    this.formUpdate.outNextPlugin + ", " + this.formUpdate.connectTo + ", " + 
-                    this.formUpdate.comments + ", " + this.formUpdate.queue + ", " +
-                    this.selectedNodeTypeForm + ", " + this.formUpdate.startupOrder + ", " +
-                    this.formUpdate.flappingIgnoreTime + ", " + this.formUpdate.maxInstances + ", " + 
-                    this.formUpdate.createDinamically + ", " + this.formUpdate.responseTime + ")";
+                this.values = "VALUES(" + id + ", " + containerId + ", " + 
+                    pluginId + ", " + containerPluginName + ", " + 
+                    state + ", " + listen + ", " + instances + ", " + inNextPlugin + ", " + 
+                    outNextPlugin + ", " + connectTo + ", " + comments + ", " + queue + ", " +
+                    nodeType + ", " + startupOrder + ", " + flappingIgnoreTime + ", " + maxInstances + ", " + 
+                    createDinamically + ", " + responseTime + ")";
                 activities = this.values;
-                console.log('activities: ' + activities);
+                // console.log('activities: ' + activities);
             } else {
-                console.log('isDuplicate: False  --> ID ' + this.formUpdate.idCP);
                 activity = "Update Container Plugin";
-                activities = "Data Lama: " + this.dataLama;
-                console.log('activities: ' + activities);
+                this.dataBaru = 'startup_order: ' + startupOrder + ', state_startup: ' + state + 
+                ', node_type: ' + nodeType + ', container_id: ' + containerId + ', plugin_id: ' + pluginId +
+                ', container_plugin_name: ' + containerPluginName + ', queue: ' + queue + 
+                ', in_next_plugin: ' + inNextPlugin + ', out_next_plugin: ' + outNextPlugin + 
+                ', listen: ' + listen + ', connectto_ipport: ' + connectTo + ', cnt_instances: ' + instances + 
+                ', max_instances: ' + maxInstances + ', flapping_ignore_time: ' + flappingIgnoreTime + 
+                ', response_timeout: ' + responseTime + ', create_dynamically: ' + createDinamically + ', comments: ' + comments;
+
+                console.log('isDuplicate: False  --> ID ' + this.formUpdate.idCP);
+                activities = "Data Lama: " + this.dataLama + " ::: Data Baru: " + this.dataBaru;
+                // console.log('activities: ' + activities);
             }
             console.log('activities: ' + activities);
             this.addAudit(activity, activities);
@@ -1024,10 +1059,30 @@ module.exports = {
             .catch(e=>{ console.log(error); });
         },
         update() {
-            var idCP = this.datas.item.idCP;
-            var stateBaru = this.selectedPluginStateForm;
-            var portBaru = this.formUpdate.listen;
-            var descBaru = this.formUpdate.comments;
+            // var idCP = this.datas.item.idCP;
+            // var stateBaru = this.selectedPluginStateForm;
+            // var portBaru = this.formUpdate.listen;
+            // var descBaru = this.formUpdate.comments;
+
+            var idCP = this.formUpdate.idCP;
+            var startupOrder = this.formUpdate.startupOrder;
+            var containerPluginName = this.formUpdate.containerPluginName;
+            var queue = this.formUpdate.queue;
+            var inNextPlugin = this.formUpdate.inNextPlugin;
+            var outNextPlugin = this.formUpdate.outNextPlugin;
+            var listen = this.formUpdate.listen;
+            var connectTo = this.formUpdate.connectTo;
+            var instances = this.formUpdate.instances;
+            var maxInstances = this.formUpdate.maxInstances;
+            var flappingIgnoreTime = this.formUpdate.flappingIgnoreTime;
+            var responseTime = this.formUpdate.responseTime;
+            var createDinamically = this.formUpdate.createDinamically;
+            var comments = this.formUpdate.comments;
+
+            var containerId = this.selectedContainerForm;
+            var pluginId = this.selectedPluginForm;
+            var state = this.selectedPluginStateForm;
+            var nodeType = this.selectedNodeTypeForm;
 
             console.log("Update: " + idCP);
             // var param = {                             //Create the JSon
@@ -1038,7 +1093,13 @@ module.exports = {
             //     "descBaru":descBaru,
             //     "database": this.selectedDatabase
             // }
-            var set = "state_startup = '"+stateBaru+"', port_listen = '"+portBaru+"', comments = '"+descBaru+"' WHERE id = '"+idCP+"'";
+            var set = "container_id = " +containerId+ ", plugin_id = " +pluginId+ ", name = '" +containerPluginName+ 
+            "', state_startup = '"+state+"', port_listen = '"+listen+ "', cnt_instances = '" +instances+ 
+            "', in_next_plugin = '" +inNextPlugin+ "', out_next_plugin = '" +outNextPlugin+ "', connectto_ipport = '" +
+            connectTo+ "', comments = '"+comments+"', queue_threshold = '" +queue+ "', node_type = '" +
+            nodeType+ "', startup_order = '" +startupOrder+ "', flapping_ignore_time = '" +flappingIgnoreTime+ 
+            "', max_instances = '" +maxInstances+ "', create_dynamically = '" +
+            createDinamically+ "', response_timeout = '" +responseTime+ "' WHERE id = "+idCP;
             axios.post('/ecp/update', {jenis: 'ContainerPlugin',setValue: set, database: this.selectedDatabase})
             .then(resp=>{ 
                 self.showNotification(); //shows notification of successful add
