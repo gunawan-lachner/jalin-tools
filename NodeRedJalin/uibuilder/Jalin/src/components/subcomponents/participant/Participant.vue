@@ -124,8 +124,11 @@
             <template #cell(container_plugin_name)="data">
                 <b-button variant="link" @click="getContainerPlugin(data.value, $event.target)">{{ data.value }}</b-button>
             </template>
+            <template #cell(id)="row">
+                <b-button variant="link" @click="duplicate(false, row, $event.target)">{{ row.value }}</b-button>
+            </template>
             <template #cell(actions)="row">
-                <b-button size="sm" @click="duplicate(row, $event.target)" class="mr-1">
+                <b-button size="sm" @click="duplicate(true, row, $event.target)" class="mr-1">
                 Duplicate
                 </b-button>
                 <b-button size="sm" @click="row.toggleDetails">
@@ -140,13 +143,55 @@
                 </b-card>
             </template>
         </b-table>
+        <b-row style="margin-top:5%;margin-left:5%;margin-right:5%;">
+            <b-col sm="5" md="6" class="my-1">
+                <ul>
+                    <li v-for="(value, key) in containerPluginAttrDatas" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+        </b-row>
         <!-- cp modal -->
         <b-modal :id="containerPluginModal.id" :title="containerPluginModal.title" ok-only @hide="resetInfoModal">
             <pre>{{ containerPluginModal.content }}</pre>
         </b-modal>
         <!-- Info modal -->
-        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-            <pre>{{ infoModal.content }}</pre>
+        <b-modal size="xl" scrollable :id="infoModal.id" :title="infoModal.title" 
+            header-bg-variant="dark"
+            header-text-variant="light"
+            body-bg-variant="light"
+            body-text-variant="dark"
+            footer-bg-variant="blue"
+            footer-text-variant="dark"
+            ok-only @hide="resetInfoModal">
+            <b-container fluid>
+                <b-row style="margin-top:5%;margin-left:5%;margin-right:5%;">
+            <b-col class="my-1">Participant
+                <ul>
+                    <li v-for="(value, key) in participantAdded" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+            <b-col class="my-1">Container Plugin
+                <ul>
+                    <li v-for="(value, key) in containerPluginAdded" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+            <b-col class="my-1">Container Plugin Com
+                <ul>
+                    <li v-for="(value, key) in containerPluginComAdded" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+            <b-col class="my-1">Container Plugin Attribut
+                <ul>
+                    <li v-for="(value, key) in containerPluginAttrAdded" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+            <b-col class="my-1">Online Config
+                <ul>
+                    <li v-for="(value, key) in onlineConfigAdded" :key="key">{{ key }}: {{ value }}</li>
+                </ul>
+            </b-col>
+        </b-row>
+            </b-container>
         </b-modal>
         <b-modal size="xl" :id="editFormModal.id" :title="editFormModal.title" 
                 header-bg-variant="dark"
@@ -166,6 +211,7 @@
                                     v-model="formUpdate.id"
                                     placeholder="Masukan ID"
                                     :state="idState"
+                                    :disabled="isDisabled"
                                     required>
                                 </b-form-input>
                             </b-col>
@@ -177,17 +223,18 @@
                                     placeholder="Masukan Ext ID"
                                     :formatter="formatUpperCase"
                                     :state="extIdState"
+                                    :disabled="isDisabled"
                                     required>
                                 </b-form-input>
                                 <!-- <span v-if="formUpdate.extId.length >= 4">The username must be at least 4 characters long.</span> -->
                             </b-col>
                         </b-row>
                         <b-row class="mb-1 text-right">
-                            <b-col>Tipe Member</b-col>
+                            <b-col>Jenis Member</b-col>
                             <b-col>
                                 <b-form-input type="text"
                                     v-model="formUpdate.participantType"
-                                    placeholder="Masukan Tipe Member"
+                                    placeholder="Masukan Jenis Member"
                                     :formatter="formatUpperCase"
                                     :state="participantTypeState"
                                     required>
@@ -212,6 +259,29 @@
                                     placeholder="Masukan Nama Container Plugin"
                                     :formatter="formatUpperCase"
                                     :state="containerPluginNameState"
+                                    :disabled="isDisabled"
+                                    required>
+                                </b-form-input>
+                            </b-col>
+                            <b-col>ID Container Plugin</b-col>
+                            <b-col>
+                                <b-form-input type="number"
+                                    v-model="formUpdate.containerPluginId"
+                                    placeholder="Masukan ID Container Plugin"
+                                    :state="containerPluginIdState"
+                                    :disabled="isDisabled"
+                                    required>
+                                </b-form-input>
+                            </b-col>                            
+                        </b-row>
+                        <b-row class="mb-1 text-right">
+                            <b-col>Nama Container Plugin In</b-col>
+                            <b-col>
+                                <b-form-input type="text"
+                                    v-model="formUpdate.containerPluginIn"
+                                    placeholder="Masukan Nama Container Plugin In"
+                                    :formatter="formatUpperCase"
+                                    :disabled="true"
                                     required>
                                 </b-form-input>
                             </b-col>
@@ -222,6 +292,30 @@
                                     placeholder="Masukan Tipe Jaringan"
                                     :formatter="formatUpperCase"
                                     :state="networkTypeState"
+                                    required>
+                                </b-form-input>
+                            </b-col>
+                        </b-row>
+                        <b-row class="mb-1 text-right">
+                            <b-col>Nama Container Plugin Out</b-col>
+                            <b-col>
+                                <b-form-input type="text"
+                                    v-model="formUpdate.containerPluginOutName"
+                                    placeholder="Masukan Nama Container Plugin Out"
+                                    :formatter="formatUpperCase"
+                                    :state="containerPluginOutNameState"
+                                    :disabled="isDisabled"
+                                    required>
+                                </b-form-input>
+                            </b-col>
+                            <b-col>ID Container Plugin Out</b-col>
+                            <b-col>
+                                <b-form-input type="text"
+                                    v-model="formUpdate.containerPluginOutId"
+                                    placeholder="Masukan ID Container Plugin Out"
+                                    :formatter="formatUpperCase"
+                                    :state="containerPluginOutIdState"
+                                    :disabled="isDisabled"
                                     required>
                                 </b-form-input>
                             </b-col>
@@ -283,6 +377,7 @@
 
 </style>
 <script>
+
 module.exports = {
     props: {keys: Object, configs: Object},
     data() {
@@ -354,16 +449,23 @@ module.exports = {
                 title:'',
             },
             formUpdate:{
+                isDuplicate: false,
                 id:'',
                 extId:'',
                 participantType:'',
+                OldName:'',
                 name:'',
                 containerPluginName:'',
+                containerPluginId:'',
                 networkType:'',
                 active:'',
                 displayOnUI:'',
-                comments:''
-                
+                comments:'',
+                containerPluginIn:'',
+                containerPluginIdOri:'',
+                containerPluginOutIdOri:'',
+                containerPluginOutName:'',
+                containerPluginOutId:'',
             },
             selectedActiveForm:'',
             activeOptions: [
@@ -378,6 +480,29 @@ module.exports = {
             isValidId:false,
             datas: [],
             fullName: this.keys.fullname,
+            isValidContainerPluginName: false,
+            isValidContainerPluginId: false,
+            isValidContainerPluginOutName: false,
+            isValidContainerPluginOutId: false,
+            containerPluginAttrDatas: [],
+            onlineConfigDatas: [],
+            containerPlugins: '',
+            containerPluginsOut: '',
+            activitiesParticipant:'',
+            activityContainerPlugin:'',
+            activitiesContainerPlugin:'',
+            activityContainerPluginCom:'',
+            activitiesContainerPluginCom:'',
+            isDisabled: false,
+            activitiesUpdateParticipant:'',
+            participantAdded:'',
+            containerPluginAdded:'',
+            containerPluginComAdded:'',
+            containerPluginAttrAdded:'',
+            onlineConfigAdded:''
+            // containerPluginAttrDatas: [{
+            //     containerPluginId: '', field: '', content: ''
+            // }],
         }
     },
     mounted(){
@@ -394,80 +519,225 @@ module.exports = {
         },
         idState() {
             console.log('idState: ' + this.formUpdate.id);
-            if(this.formUpdate.id.length > 0 && this.formUpdate.id > 0) {
-                console.log('idState11111: ' + this.formUpdate.id);
-                var ok = false;
-                axios.post(this.picker,{ jenis: 'Participant', parameter: this.formUpdate.id })
-                .then((resp) => {
-                    if(resp.data.length>0) {
-                        console.log("isValidId tidak valid");
-                        this.errormessage = "ID sudah digunakan.";
-                        this.isValidId = false;
-                    } else{
-                        console.log("isValidId valid");
-                        this.errormessage = "";
-                        this.isValidId = true;
-                    }
-                }).catch((error) => {console.log(error);});
-                return this.isValidId;
+            console.log("isDuplicate: " + this.isDuplicate);
+            if(this.isDuplicate) {
+                if(this.formUpdate.id.length > 0 && this.formUpdate.id > 0) {
+                    axios.post(this.picker,{ jenis: 'Participant', id: this.formUpdate.id })
+                    .then((resp) => {
+                        if(resp.data.length>0) {
+                            console.log("isValidId tidak valid");
+                            this.errormessage = "ID sudah digunakan.";
+                            this.isValidId = false;
+                        } else{
+                            console.log("isValidId valid");
+                            this.errormessage = "";
+                            this.isValidId = true;
+                        }
+                    }).catch((error) => {console.log(error);});
+                    return this.isValidId;
+                } else {
+                    this.errormessage = "ID tidak boleh kosong atau -.";
+                    return false;
+                }
+                // this.isDuplicate = true;
             } else {
-                this.errormessage = "ID tidak boleh kosong atau -.";
-                return false;
+                this.isValidId = true;
+                // this.isDuplicate = false;
+                return true;
             }
-            // return this.formUpdate.id.length > 0 ? true : false
         },
         extIdState() {
-            if(this.formUpdate.extId.length > 0 && this.formUpdate.extId.length > 3) {
-                this.errormessage = "Ext ID tidak boleh lebih dari 3 karakter.";
-                return false;
+            console.log('extIdState: '+ this.formUpdate.extId);
+            console.log("isDuplicate: " + this.isDuplicate);
+            if(this.isDuplicate) {
+                if(this.formUpdate.extId.length > 3) {
+                    this.errormessage = "Ext ID tidak boleh lebih dari 3 karakter.";
+                    return false;
+                } else if(this.formUpdate.extId.length == 0) {
+                    this.errormessage = "Ext ID tidak boleh kosong.";
+                    return false;
+                } else {
+                    this.errormessage = "";
+                    return true;
+                }
             } else {
-                this.errormessage = "Ext ID tidak boleh kosong.";
                 return true;
             }
+            
         },
         participantTypeState() {
-            if(this.formUpdate.participantType.length > 0 && this.formUpdate.extId.length > 10) {
+            console.log("participantType: " + this.formUpdate.participantType);
+            if(this.formUpdate.participantType.length > 10) {
                 this.errormessage = "Jenis Member tidak boleh lebih dari 10 karakter.";
-                return true;
-            } else {
+                return false;
+            } else if(this.formUpdate.participantType.length == 0) {
                 this.errormessage = "Jenis Member tidak boleh kosong.";
                 return false;
+            } else {
+                this.errormessage = "";
+                return true;
             }
         },
         nameState() {
-            if(this.formUpdate.name.length > 0 && this.formUpdate.name.length > 45) {
+            // console.log(this.formUpdate.name + " ::::::::::::::::: " + this.formUpdate.oldName);
+            if(this.formUpdate.name.length > 45) {
                 this.errormessage = "Nama Member tidak boleh lebih dari 45 karakter.";
-                return true;
-            } else {
+                return false;
+            // } else if(this.formUpdate.name == this.formUpdate.oldName) {
+            //     this.errormessage = "Nama Member tidak boleh sama.";
+            //     return false;
+            } else if(this.formUpdate.name.length == 0 ) {
                 this.errormessage = "Nama Member tidak boleh kosong.";
                 return false;
+            } else {
+                this.errormessage = "";
+                return true;
             }
         },
         containerPluginNameState() {
-            if(this.formUpdate.containerPluginName.length > 0 && this.formUpdate.containerPluginName.length > 45) {
-                this.errormessage = "Nama Container Plugin tidak boleh lebih dari 45 karakter.";
-                return true;
+            console.log("containerPluginNameState");
+            if(this.isDuplicate) {
+                if(this.formUpdate.containerPluginName.length > 0 && this.formUpdate.containerPluginName.length <= 45) {
+                    axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: this.formUpdate.containerPluginName, id: 0})
+                    .then((resp) => { 
+                        if(resp.data.length>0) {
+                            console.log("isValidContainerPluginName tidak valid");
+                            this.errormessage = "Nama Container Plugin sudah digunakan.";
+                            this.isValidContainerPluginName = false;
+                        } else{
+                            console.log("isValidContainerPluginName valid");
+                            this.errormessage = "";
+                            this.isValidContainerPluginName = true;
+                        }
+                    })
+                    .catch(errors => { console.error(errors); });
+                    return this.isValidContainerPluginName;
+                } else if(this.formUpdate.containerPluginName.length > 45) {
+                    this.errormessage = "Nama Container Plugin tidak boleh lebih dari 45 karakter.";
+                    return false;
+                } else if(this.formUpdate.containerPluginName.length == 0 ) {
+                    this.errormessage = "Nama Container Plugin tidak boleh kosong.";
+                    return false;
+                }
             } else {
-                this.errormessage = "Nama Container Plugin tidak boleh kosong.";
-                return false;
+                return true;
             }
         },
-        networkTypeState() {
-            if(this.formUpdate.networkType.length > 0 && this.formUpdate.networkType.length > 32) {
-                this.errormessage = "Network Type tidak boleh lebih dari 32 karakter.";
-                return true;
+        containerPluginIdState() {
+            console.log("containerPluginIdState: " + this.formUpdate.containerPluginId);
+            if(this.isDuplicate) {
+                if(this.formUpdate.containerPluginId.length > 0 && this.formUpdate.containerPluginId.length <= 10) {
+                    axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: '', id: this.formUpdate.containerPluginId})
+                    .then((resp) => { 
+                        if(resp.data.length>0) {
+                            console.log("id tidak valid");
+                            this.errormessage = "ID Container Plugin sudah digunakan.";
+                            this.isValidContainerPluginId = false;
+                        } else{
+                            console.log("isValidContainerPluginId valid");
+                            this.errormessage = "";
+                            this.isValidContainerPluginId = true;
+                        }
+                    })
+                    .catch(errors => { console.error(errors); });
+                    return this.isValidContainerPluginId;
+                } else if(this.formUpdate.containerPluginId.length > 10 ) {
+                    this.errormessage = "ID Container Plugin tidak boleh lebih dari 10 karakter.";
+                    return false;
+                } else if(this.formUpdate.containerPluginId.length == 0 ) {
+                    this.errormessage = "ID Container Plugin tidak boleh kosong.";
+                    return false;
+                }
             } else {
+                return true;
+            }
+            
+        },
+        containerPluginOutNameState() {
+            console.log("containerPluginOutNameState");
+            if(this.isDuplicate) {
+                if(this.formUpdate.containerPluginOutName.length > 0 && this.formUpdate.containerPluginOutName.length <= 45) {
+                    axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: this.formUpdate.containerPluginOutName, id: 0})
+                    .then((resp) => { 
+                        if(resp.data.length>0) {
+                            console.log("isValidContainerPluginOutName tidak valid");
+                            this.errormessage = "Nama Container Plugin Out sudah digunakan.";
+                            this.isValidContainerPluginOutName = false;
+                        } else{
+                            console.log("isValidContainerPluginOutName valid");
+                            this.errormessage = "";
+                            this.isValidContainerPluginOutName = true;
+                        }
+                    })
+                    .catch(errors => { console.error(errors); });
+                    return this.isValidContainerPluginOutName;
+                } else if(this.formUpdate.containerPluginOutName.length > 45) {
+                    this.errormessage = "Nama Container Plugin Out tidak boleh lebih dari 45 karakter.";
+                    return false;
+                } else if(this.formUpdate.containerPluginOutName.length == 0 ) {
+                    this.errormessage = "Nama Container Plugin Out tidak boleh kosong.";
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        },
+        containerPluginOutIdState() {
+            console.log("containerPluginOutIdState: " + this.formUpdate.containerPluginOutId);
+            if(this.isDuplicate) {
+                if(this.formUpdate.containerPluginOutId.length > 0 && this.formUpdate.containerPluginOutId.length <= 10) {
+                    axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: '', id: this.formUpdate.containerPluginOutId})
+                    .then((resp) => { 
+                        if(resp.data.length>0) {
+                            console.log("isValidContainerPluginOutId tidak valid");
+                            this.errormessage = "ID Container Plugin Out sudah digunakan.";
+                            this.isValidContainerPluginOutId = false;
+                        } else{
+                            console.log("isValidContainerPluginOutId valid");
+                            this.errormessage = "";
+                            this.isValidContainerPluginOutId = true;
+                        }
+                    })
+                    .catch(errors => { console.error(errors); });
+                    return this.isValidContainerPluginOutId;
+                } else if(this.formUpdate.containerPluginOutId.length > 10 ) {
+                    this.errormessage = "ID Container Plugin Out tidak boleh lebih dari 10 karakter.";
+                    return false;
+                } else if(this.formUpdate.containerPluginOutId.length == 0 ) {
+                    this.errormessage = "ID Container Plugin Out tidak boleh kosong.";
+                    return false;
+                }
+            } else {
+                return true;
+            }
+            
+        },
+        networkTypeState() {
+            if(this.formUpdate.networkType.length > 32) {
+                this.errormessage = "Network Type tidak boleh lebih dari 32 karakter.";
+                return false;
+            } else if(this.formUpdate.networkType.length == 0) {
                 this.errormessage = "Network Type tidak boleh kosong.";
                 return false;
+            } else {
+                this.errormessage = "";
+                return true;
             }
         },
         commentsState() {
-            if(this.formUpdate.comments.length > 0 && this.formUpdate.comments.length > 256) {
-                this.errormessage = "Komentar tidak boleh lebih dari 256 karakter.";
-                return true;
+            if(this.isDuplicate) {
+                if(this.formUpdate.comments.length > 256) {
+                    this.errormessage = "Komentar tidak boleh lebih dari 256 karakter.";
+                    return false;
+                } else if(this.formUpdate.comments.length == 0) {
+                    this.errormessage = "Network Type tidak boleh kosong.";
+                    return false;
+                } else {
+                    this.errormessage = "";
+                    return true;
+                }
             } else {
-                this.errormessage = "Komentar tidak boleh kosong.";
-                return false;
+                return true;
             }
         },
         displayError(){
@@ -484,40 +754,108 @@ module.exports = {
         retreiveEditFormModal() {
             console.log("retreiveEditFormModal");
             console.log("action: " + this.action);
-            if(this.action=='Duplicate') {
-                this.editFormModal.title = 'New Container Plugin';
-            } 
-            if(this.action=='Update') {
-                this.editFormModal.title = 'Edit Container Plugin ID : ' + id;
-            }
+            // if(this.action=='Duplicate') {
+            //     this.editFormModal.title = 'New Container Plugin';
+            // } 
+            // if(this.action=='Update') {
+            //     this.editFormModal.title = 'Edit Container Plugin ID : ' + this.formUpdate.id;
+            // }
         },
         resetEditFormModal() {
             console.log('resetEditFormModal');
+            this.isDuplicate = false,
             this.formUpdate.id = '';
             this.formUpdate.extId = '';
             this.formUpdate.participantType = '';
+            this.formUpdate.OldName = '';
             this.formUpdate.name = '';
             this.formUpdate.containerPluginName = '';
+            this.formUpdate.containerPluginId = '';
             this.formUpdate.networkType = '';
             this.formUpdate.active = '';
             this.formUpdate.displayOnUI = '';
             this.formUpdate.comments = '';
+            this.formUpdate.containerPluginOutName = '';
+            this.formUpdate.containerPluginOutId = '';
+            this.formUpdate.containerPluginId = '';
             this.errormessage = '';
+            this.containerPluginAttrDatas = [];
+            this.onlineConfigDatas = [];
+            this.containerPlugins = '';
+            this.containerPluginsOut = '';
         },
-        duplicate(data, tombol) {
+        duplicate(isDuplicate, data, tombol) {
+            console.log('duplicate::::::::::::::::::::::::::');
             // this.infoModal.title = `Row index: ${index}`
             // this.infoModal.content = JSON.stringify(item, null, 2)
 
             this.datas = data;
-            // this.formUpdate.id = data.item.id;
+            this.isDuplicate = isDuplicate;
+
+            var id = data.item.id;
             this.formUpdate.extId = data.item.ext_id;
             this.formUpdate.participantType = data.item.participant_type;
+            // this.formUpdate.OldName = data.item.name;
             this.formUpdate.name = data.item.name;
             this.formUpdate.containerPluginName = data.item.container_plugin_name;
             this.formUpdate.networkType = data.item.network_type;
             this.formUpdate.active = data.item.active;
             this.formUpdate.displayOnUI = data.item.display_on_ui;
             this.formUpdate.comments = data.item.comments;
+
+            if(isDuplicate) {
+                this.editFormModal.title = 'Duplicate dari Participant ID : ' + id;
+                this.isDisabled = false;
+
+                axios.post(this.picker,{ jenis: 'ContainerPluginDuplicate', parameter: this.formUpdate.containerPluginName})
+                .then((resp) => { 
+                    this.containerPlugins = resp.data;
+                    this.formUpdate.containerPluginIn = resp.data[0].in_next_plugin;
+                    this.formUpdate.containerPluginOutName = resp.data[0].out_next_plugin;
+                    this.formUpdate.containerPluginIdOri = resp.data[0].id;
+                    this.formUpdate.containerPluginOutIdOri = resp.data[0].outId;
+                    console.log('ContainerPlugin length: ' + resp.data.length);
+                    console.log('containerPluginIn: ' + this.formUpdate.containerPluginIn);
+                    console.log('containerPluginOutName: ' + this.formUpdate.containerPluginOutName);
+                    console.log('containerPluginIdOri: ' + this.formUpdate.containerPluginIdOri);
+                    console.log('containerPluginOutIdOri: ' + this.formUpdate.containerPluginOutIdOri);
+                    console.log('connectto: ' + this.containerPlugins[0].connectto_ipport);
+
+                    axios.post(this.picker,{ jenis: 'ContainerPluginDuplicate', parameter: this.formUpdate.containerPluginOutName})
+                        .then((resp) => {
+                            this.containerPluginsOut = resp.data;
+                            console.log('ContainerPluginOut length: ' + resp.data.length);
+                        })
+                        .catch(errors => { console.error(errors); });
+
+                    axios.post(this.picker,{ jenis: 'ContainerPluginAttrDuplicate', parameter: this.formUpdate.containerPluginIdOri + ', ' + this.formUpdate.containerPluginOutIdOri})
+                        .then((resp) => { 
+                            console.log('resp.data ContainerPluginAttr length: ' + resp.data.length);
+                            this.containerPluginAttrDatas = resp.data;
+                        })
+                        .catch(errors => { console.error(errors); });
+
+                    
+                    
+                }).catch(errors => { console.error(errors); });
+                var param = {  
+                    "jenis": "OnlineConfigDuplicate",
+                    "acqId": id,
+                    "containerPluginName": "'"+this.formUpdate.containerPluginName+"'"
+                    }
+                axios.post(this.picker, param)
+                    .then((resp) => { 
+                        this.onlineConfigDatas = resp.data;
+                        console.log('OnlineConfigDuplicate length: ' + resp.data.length);
+                        console.log('OnlineConfigId: ' + this.onlineConfigDatas[0].id);
+                    })
+                    .catch(errors => { console.error(errors); });
+
+            } else {
+                this.editFormModal.title = 'Edit Participant ID : ' + id;
+                this.formUpdate.id = data.item.id;
+                this.isDisabled = true;
+            }
 
             this.$root.$emit('bv::show::modal', this.editFormModal.id, tombol);
         },
@@ -532,45 +870,161 @@ module.exports = {
         handleSubmit() {
             console.log("handleSubmit: " + this.checkFormValidity());
             console.log("handleSubmit isValidId ::::::::::::::: " + this.isValidId);
-            // const isId = this.checkAvailable(this.formUpdate.id);
-            // console.log("isId: " + isId);
+            console.log('containerPluginId: ' + this.formUpdate.containerPluginId);
+            console.log('containerPluginOutId: ' + this.formUpdate.containerPluginOutId);
+            // this.notifBerhasil();
+            
             if (!this.checkFormValidity()) {
                 return
             } 
             if (!this.isValidId) {
                 return
-            } 
-            else {
-                this.audit();
-                this.add();
             }
-            // this.refresh();
+            if(this.isDuplicate && this.formUpdate.containerPluginId == this.formUpdate.containerPluginOutId) {
+                this.errormessage = "ID Container Plugin tidak boleh sama dengan ID Container Plugin Out";
+                return
+            }
+            if(!this.isDuplicate) {
+                this.auditUpdateParticipant();
+                this.updateParticipant();
+            }
+            if(this.isDuplicate) {
+                this.audit();
+                this.addParticipant();
+                this.addContainerPlugin(this.activitiesContainerPlugin);
+                this.addContainerPlugin(this.activityContainerPluginCom);
+                this.addContainerPluginAtt();
+                this.addOnlineConfig();
+            }
+            this.notifBerhasil();
+            this.onChange();
             this.$nextTick(() => {
             this.$bvModal.hide(this.editFormModal.id)
             })
          },
-         add() {
-            var id = this.formUpdate.id;
-            var extId = this.formUpdate.extId;
-            var participantType = this.formUpdate.participantType;
-            var name = this.formUpdate.name;
-            var containerPluginName = this.formUpdate.containerPluginName;
-            var networkType = this.formUpdate.networkType;
-            var active = this.formUpdate.active;
-            var displayOnUI = this.formUpdate.displayOnUI;
-            var comments = this.formUpdate.comments;
+         addOnlineConfig(){
+            console.log('addOnlineConfig');
+            var jumlah = this.onlineConfigDatas.length;
+            var i = 0;
+            while(jumlah > i) {
+                var acqPartId = this.onlineConfigDatas[i].acq_participant_id;
+                var issPartId = this.onlineConfigDatas[i].iss_participant_id;
+                var pluginId = this.onlineConfigDatas[i].plugin_id;
+                var containerPluginName = this.onlineConfigDatas[i].container_plugin_name;
+                var keytype = this.onlineConfigDatas[i].key_type;
+                var configKey = this.onlineConfigDatas[i].config_key;
+                var configValue = this.onlineConfigDatas[i].config_value;
+                containerPluginName = containerPluginName.replace(/\s+/g, '');
+                if(containerPluginName.length > 0) {
+                    containerPluginName = this.formUpdate.containerPluginName;
+                } else {
+                    acqPartId = this.formUpdate.id;
+                }
+                console.log('containerPluginName: ' + containerPluginName);
+                console.log('acqPartId: ' + acqPartId);
+                var activity = "Duplicate container Plugin Attribut";
+                var value = "INSERT INTO online_config VALUES (" + null + ", '"+acqPartId+"', '"+
+                    issPartId+"', '"+pluginId+"', '"+containerPluginName+"', '" +keytype+"', '"+
+                    configKey+"', '"+configValue+"') ;";
+                console.log('value: ' + value);
+                this.addAudit(activity, value);
+                axios.post('/ecp/add', {jenis: "OnlineConfigAdd", value: value, database: this.selectedDatabase})
+                    .then(resp=>{})
+                    .catch(e=>{ console.log(error); });
+                i++;
+            }
+         },
+         addContainerPluginAtt(){
+            var jumlah = this.containerPluginAttrDatas.length;
+            var i = 0;
+            while(jumlah > i) {
+                var cpIdOri = this.formUpdate.containerPluginIdOri;
+                var cpIdComOri = this.formUpdate.containerPluginOutIdOri;
+                var participantId = this.formUpdate.id;
 
+                var cpIdDuplicate = this.containerPluginAttrDatas[i].container_plugin_id;
+                var fieldDuplicate = this.containerPluginAttrDatas[i].field;
+                var contentDuplicate = this.containerPluginAttrDatas[i].content;
+                
+                var newCpId = '';
+
+                if(cpIdDuplicate==cpIdOri){
+                    newCpId = this.formUpdate.containerPluginId;
+                } 
+                if(cpIdDuplicate==cpIdComOri){
+                    newCpId = this.formUpdate.containerPluginOutId;
+                }
+                if(fieldDuplicate=='PARTICIPANT') contentDuplicate = participantId;
+                if(fieldDuplicate=='STAN') contentDuplicate = 0;
+                
+                console.log("replaced containerPluginId: " + newCpId);
+                
+                var activity = "Duplicate container Plugin Attribut";
+                var value = "INSERT INTO container_plugin_attr VALUES (" + null + ",'"+newCpId+"','" + fieldDuplicate+"','" +contentDuplicate+ "');";
+                console.log("value: " + value);
+                this.addAudit(activity, value);
+                axios.post('/ecp/add', {jenis: "ContainerPluginAttrAdd", value: value, database: this.selectedDatabase})
+                    .then(resp=>{})
+                    .catch(e=>{ console.log(error); });
+                i++;
+            }
+         },
+         addParticipant() {
+            var id = this.formUpdate.id;
             console.log("Add: " + id);
-            var value = this.formUpdate.id + ", '" + 
-                this.formUpdate.extId + "', '" + 
-                this.formUpdate.participantType + "', '" + 
-                this.formUpdate.name + "', '" +
-                this.formUpdate.containerPluginName + "', '" + 
-                this.formUpdate.networkType + "', '" + 
-                this.formUpdate.active + "', '" + 
-                this.formUpdate.displayOnUI + "', '" + 
-                this.formUpdate.comments + "'";
+            var value = this.activitiesParticipant;
             axios.post('/ecp/add', {jenis: "ParticipantAdd", value: value, database: this.selectedDatabase})
+                .then(resp=>{ })
+                .catch(e=>{ console.log(error); });
+        },
+        notifBerhasil(){
+            console.log('notifBerhasil: ' + this.formUpdate.id);
+            axios.post(this.picker, {jenis: "Participant", id: this.formUpdate.id})
+                .then(resp=>{ this.participantAdded = resp.data;})
+                .catch(e=>{ console.log(error); });
+            if(this.isDuplicate){
+                this.infoModal.title = 'Participant berhasil di duplicate dengan detail sebagai berikut:';
+                axios.post(this.picker, {jenis: "ContainerPlugin", id: this.formUpdate.containerPluginId, parameter:''})
+                    .then(resp=>{ this.containerPluginAdded = resp.data;})
+                    .catch(e=>{ console.log(error); });
+
+                axios.post(this.picker, {jenis: "ContainerPlugin", id: this.formUpdate.containerPluginOutId, parameter:''})
+                    .then(resp=>{ this.containerPluginComAdded = resp.data;})
+                    .catch(e=>{ console.log(error); });
+
+                    axios.post(this.picker, {jenis: "ContainerPluginAttrDuplicate", parameter: this.formUpdate.containerPluginId + ', ' + this.formUpdate.containerPluginOutId})
+                    .then(resp=>{ this.containerPluginAttrAdded = resp.data;})
+                    .catch(e=>{ console.log(error); });
+
+                axios.post(this.picker, {jenis: "OnlineConfigDuplicate", acqId: this.formUpdate.id, containerPluginName: "'"+this.formUpdate.containerPluginName+"'"})
+                    .then(resp=>{ this.onlineConfigAdded = resp.data;})
+                    .catch(e=>{ console.log(error); });
+            } else {
+                this.infoModal.title = 'Participant berhasil di update';
+            }
+            
+            this.$root.$emit('bv::show::modal', this.infoModal.id);
+        },
+        auditUpdateParticipant(){
+            console.log('auditUpdateParticipant');
+            var activity = "Update Participant";
+
+            var activities = "UPDATE participant set name = '"+this.formUpdate.name+"', "+
+                "participant_type = '"+this.formUpdate.participantType+"', "+
+                "network_type = '"+this.formUpdate.networkType+"', " +
+                "comments = '"+this.formUpdate.comments+"', "+
+                "active = '"+this.formUpdate.active+"', "+
+                "display_on_ui = '"+this.formUpdate.displayOnUI+"' "+
+                "WHERE id = "+this.formUpdate.id+" ;";
+            console.log("activities: " + activities);
+            this.addAudit(activity, activities);
+            this.activitiesUpdateParticipant = activities;
+        },
+        updateParticipant() {
+            var id = this.formUpdate.id;
+            console.log("updateParticipant: " + id);
+            var value = this.activitiesUpdateParticipant;
+            axios.post('/ecp/update', {jenis: "ParticipantUpdate", value: value, database: this.selectedDatabase})
             .then(resp=>{ 
                 self.showNotification(); //shows notification of successful add
             })
@@ -579,28 +1033,90 @@ module.exports = {
          audit(){
             console.log('audit');
             var activity = "Duplicate Participant";
-            var activities = "INSERT INTO participant VALUES (" + this.formUpdate.id + ", " + 
-                this.formUpdate.extId + ", " + 
-                this.formUpdate.participantType + ", " + 
-                this.formUpdate.name + ", " +
-                this.formUpdate.containerPluginName + ", " + 
-                this.formUpdate.networkType + ", " + 
-                this.formUpdate.active + ", " + 
-                this.formUpdate.displayOnUI + ", " + 
-                this.formUpdate.comments + ")";
+
+            var activities = "INSERT INTO participant VALUES (" + this.formUpdate.id + ", '" + 
+                this.formUpdate.extId + "', '" + 
+                this.formUpdate.participantType + "', '" + 
+                this.formUpdate.name + "', '" +
+                this.formUpdate.containerPluginName + "', '" + 
+                this.formUpdate.networkType + "', '" + 
+                this.formUpdate.active + "', '" + 
+                this.formUpdate.displayOnUI + "', '" + 
+                this.formUpdate.comments + "');";
+
+            this.activitiesParticipant = activities;
             
             console.log('activities: ' + activities);
             this.addAudit(activity, activities);
+            this.addAuditContainerPlugin();
+            this.addAuditContainerPluginCom();
+        },
+        addAuditContainerPlugin(){
+            console.log('addAuditContainerPlugin');
+            var activity = "Duplicate Container Plugin named: " + this.formUpdate.containerPluginName;
+            var activities = "INSERT INTO container_plugin VALUES ('" +this.formUpdate.containerPluginId+"','" +
+                this.containerPlugins[0].container_id+"','"+this.containerPlugins[0].plugin_id+"','"+
+                this.formUpdate.containerPluginName+"','"+this.containerPlugins[0].state_startup+"','"+
+                this.containerPlugins[0].port_listen+"','"+this.containerPlugins[0].cnt_instances+"','"+
+                this.containerPlugins[0].in_next_plugin+"','"+this.formUpdate.containerPluginOutName+"','"+
+                this.containerPlugins[0].connectto_ipport+"','"+this.containerPlugins[0].comments+"','"+
+                this.containerPlugins[0].queue_threshold+"','"+
+                this.containerPlugins[0].node_type+"','"+this.containerPlugins[0].startup_order+"','"+
+                this.containerPlugins[0].flapping_ignore_time+"','"+this.containerPlugins[0].max_dynamic_instances+"','"+
+                this.containerPlugins[0].dynamic_creation_mode+"','"+this.containerPlugins[0].response_timeout+"');";
+
+            console.log('activity: ' + activity);
+            console.log('activities: ' + activities);
+            this.addAudit(activity, activities);
+            console.log('     2nd activities: ' + activities);
+            this.activityContainerPlugin = activity;
+            this.activitiesContainerPlugin = activities;
+        },
+        addAuditContainerPluginCom(){
+            console.log('addAuditContainerPluginCom');
+            var activity = "Duplicate Container Plugin named: " + this.formUpdate.containerPluginOutName;
+            var activities = "INSERT INTO container_plugin VALUES ('" +this.formUpdate.containerPluginOutId+"','"+
+                this.containerPluginsOut[0].container_id+"','"+this.containerPluginsOut[0].plugin_id+"','"+
+                this.formUpdate.containerPluginOutName+"','"+this.containerPluginsOut[0].state_startup+"','"+
+                this.containerPluginsOut[0].port_listen+"','"+this.containerPluginsOut[0].cnt_instances+"','"+
+                this.formUpdate.containerPluginName+"','','"+this.containerPluginsOut[0].connectto_ipport+"','"+
+                this.containerPluginsOut[0].comments+"','"+this.containerPluginsOut[0].queue_threshold+"','"+
+                this.containerPluginsOut[0].node_type+"','"+this.containerPluginsOut[0].startup_order+"','"+
+                this.containerPluginsOut[0].flapping_ignore_time+"','"+this.containerPluginsOut[0].max_dynamic_instances+"','"+
+                this.containerPluginsOut[0].dynamic_creation_mode+"','"+this.containerPluginsOut[0].response_timeout+"');";
+
+            console.log('activity: ' + activity);
+            console.log('activities: ' + activities);
+            this.addAudit(activity, activities);
+            console.log('     2nd activities: ' + activities);
+            this.activityContainerPluginCom = activities;
+
+        },
+        addContainerPlugin(value){
+            console.log('     addContainerPlugin: ' + value);
+            var param = {  
+                "jenis": "ContainerPluginAdd",
+                "value": value,
+                "database": this.selectedDatabase
+            }
+            axios.post('/ecp/add', param)
+            .then(resp=>{ 
+                self.showNotification(); //shows notification of successful add
+            })
+            .catch(e=>{ console.log(error); });
         },
         addAudit(activity, activities){
-            console.log('addAudit');
+            console.log('     addAudit');
             var date = this.getCurrentDate();
             var time = this.getCurrentTime();
+            console.log('                                        activities: ' + activities);
+            var newActivities = activities.replace(/'/g,"");
+            console.log('                                        newActivities: ' + newActivities);
             var param = {                             //Create the JSon
                 "fullName": this.fullName,
                 "menu": "Participant",
                 "activityName": activity,
-                "activities": activities,
+                "activities": newActivities,
                 "datetime": date+" "+time,
                 "database": this.selectedDatabase
             }
@@ -623,24 +1139,6 @@ module.exports = {
             let currentDate = `${year}-${month}-${day}`;
             return currentDate
         },
-         checkAvailable(id) {
-            console.log("checkAvailable: " + id);
-            // var isValidId = true;
-            axios.post(this.picker,{ jenis: 'Participant', parameter: id })
-                .then((resp) => {
-                    if(resp.data.length>0) {
-                        console.log("isValidId tidak valid");
-                        this.isValidId = false;
-                    } else{
-                        console.log("isValidId valid");
-                        this.isValidId = true;
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                });
-            console.log("checkAvailable isValidId " + this.isValidId);
-            return this.isValidId;
-        },
          checkFormValidity() {
             console.log("checkFormValidity");
             const valid = this.$refs.form.checkValidity();
@@ -653,6 +1151,11 @@ module.exports = {
         resetInfoModal() {
             this.infoModal.title = ''
             this.infoModal.content = ''
+            this.participantAdded = ''
+            this.containerPluginAdded = ''
+            this.containerPluginComAdded = ''
+            this.containerPluginAttAdded = ''
+            this.onlineConfigAdded = ''
         },
         getMembers(){
             // let memberId = '';
@@ -678,19 +1181,19 @@ module.exports = {
             })
             .catch(errors => { console.error(errors); });;
         },
-        resetInfoModal() {
-            this.containerPluginModal.title = ''
-            this.containerPluginModal.content = ''
-        },
+        // resetInfoModal() {
+        //     this.containerPluginModal.title = ''
+        //     this.containerPluginModal.content = ''
+        // },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
         getContainerPlugin(namaContainerPlugin, tombol) {
-            // console.log("info disini");
+            console.log("info disini getContainerPlugin");
             this.containerPluginModal.title = namaContainerPlugin;
-            axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: namaContainerPlugin})
+            axios.post(this.picker,{ jenis: 'ContainerPlugin', parameter: namaContainerPlugin, id: 0})
             .then((resp) => { 
                 this.containerPluginModal.content = resp.data;
             })

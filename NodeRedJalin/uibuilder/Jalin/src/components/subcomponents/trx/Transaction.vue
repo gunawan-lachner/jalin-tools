@@ -173,6 +173,9 @@
                 Cek Routing
                 </b-button>
             </template>
+            <template #cell(UUID)="data">
+                <b-button variant="link" @click="getTrxEndpoint(data.value, $event.target)">{{ data.value }}</b-button>
+            </template>
         </b-table>
         <!-- Info modal -->
         <b-modal :id="infoModal.id" scrollable :title="infoModal.title" ok-only @hide="resetInfoModal">
@@ -214,6 +217,28 @@
                 <!-- <template v-slot:cell()="{ item, field: { key } }">
                     <b-form-input v-model="item[key]" />
                 </template> -->
+            </b-table>
+            
+        </b-modal>
+        <b-modal size="xl" :id="infoTrxEndpoint.id" scrollable :title="infoModal.title" ok-only @hide="resetInfoModal">
+            <!-- <b-row>
+                <b-col><pre>{{ infoModal.iia }}</pre></b-col>
+            </b-row> -->
+            <b-table 
+                :items="infoTrxEndpoint.content" 
+                :fields="infoTrxEndpoint.fields"
+                stacked="md"
+                show-empty>
+                <template 
+                    :slot="field.key" 
+                    v-for="field in editableFields"
+                    slot-scope="{ item, value }"
+                >
+                <!-- <span v-if="!item.editing">
+                    {{ value }}
+                </span> -->
+                <b-input v-else v-model="item.temp[field.key]" @keydown.enter.exact="doSave(item)"></b-input>
+                </template>
             </b-table>
             
         </b-modal>
@@ -351,6 +376,76 @@ module.exports = {
             selectedTime:'30',
             refreshTime: ['30','60','90'],
             isHidden: false,
+            infoTrxEndpoint: {
+                id: 'info-trxendpoint',
+                title: '',
+                content: [],
+                fields: [
+                    {
+                        key: 'id', 
+                        label: 'ID',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'uuid', 
+                        label: 'UUID',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'dt', 
+                        label: 'Tanggal',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'msg_direction', 
+                        label: 'Msg Direction',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'request_response', 
+                        label: 'Jenis Msg',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'participant', 
+                        label: 'Participant',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'message', 
+                        label: 'Message',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'state', 
+                        label: 'State',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                    {
+                        key: 'worker_id', 
+                        label: 'worker_id',
+                        sortable: true,
+                        filterByFormatted: true, 
+                        editable: true
+                    },
+                ],
+            },
             infoRouting: {
                 id: 'info-routing',
                 title: '',
@@ -616,6 +711,16 @@ module.exports = {
                 .catch(errors => { console.error(errors); });;
             // this.infoModal.content = aturan;
             this.$root.$emit('bv::show::modal', this.infoModal.id, tombol);
+        },
+        getTrxEndpoint(uuid, tombol) {
+            console.log("getTrxEndpoint");
+            this.infoModal.title = 'UUID: ' + uuid;
+                axios.post(this.picker,{ jenis: 'TrxEndpoint', parameter: uuid})
+                .then((resp) => { 
+                    this.infoTrxEndpoint.content = resp.data;
+                })
+                .catch(errors => { console.error(errors); });
+            this.$root.$emit('bv::show::modal', this.infoTrxEndpoint.id, tombol);
         },
         getCurrentDate(){
             const date = new Date();
