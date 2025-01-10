@@ -891,8 +891,8 @@ module.exports = {
             if(this.isDuplicate) {
                 this.audit();
                 this.addParticipant();
-                this.addContainerPlugin(this.activitiesContainerPlugin);
-                this.addContainerPlugin(this.activityContainerPluginCom);
+                if(this.containerPlugins.length > 0) this.addContainerPlugin(this.activitiesContainerPlugin);
+                if(this.containerPluginsOut.length > 0) this.addContainerPlugin(this.activityContainerPluginCom);
                 this.addContainerPluginAtt();
                 this.addOnlineConfig();
             }
@@ -1048,8 +1048,8 @@ module.exports = {
             
             console.log('activities: ' + activities);
             this.addAudit(activity, activities);
-            this.addAuditContainerPlugin();
-            this.addAuditContainerPluginCom();
+            if(this.containerPlugins.length > 0) this.addAuditContainerPlugin();
+            if(this.containerPluginsOut.length > 0) this.addAuditContainerPluginCom();
         },
         addAuditContainerPlugin(){
             console.log('addAuditContainerPlugin');
