@@ -830,7 +830,7 @@ module.exports = {
 
                     axios.post(this.picker,{ jenis: 'ContainerPluginAttrDuplicate', parameter: this.formUpdate.containerPluginIdOri + ', ' + this.formUpdate.containerPluginOutIdOri})
                         .then((resp) => { 
-                            console.log('resp.data ContainerPluginAttr length: ' + resp.data.length);
+                            console.log('ContainerPluginAttr length: ' + resp.data.length);
                             this.containerPluginAttrDatas = resp.data;
                         })
                         .catch(errors => { console.error(errors); });
@@ -847,7 +847,7 @@ module.exports = {
                     .then((resp) => { 
                         this.onlineConfigDatas = resp.data;
                         console.log('OnlineConfigDuplicate length: ' + resp.data.length);
-                        console.log('OnlineConfigId: ' + this.onlineConfigDatas[0].id);
+                        // console.log('OnlineConfigId: ' + this.onlineConfigDatas[0].id);
                     })
                     .catch(errors => { console.error(errors); });
 
@@ -904,6 +904,7 @@ module.exports = {
          },
          addOnlineConfig(){
             console.log('addOnlineConfig');
+            var participantId = this.formUpdate.id;
             var jumlah = this.onlineConfigDatas.length;
             var i = 0;
             while(jumlah > i) {
@@ -920,9 +921,10 @@ module.exports = {
                 } else {
                     acqPartId = this.formUpdate.id;
                 }
+                if(config_key.length > 0 && configKey == 'PARTICIPANT') issPartId = participantId;
                 console.log('containerPluginName: ' + containerPluginName);
                 console.log('acqPartId: ' + acqPartId);
-                var activity = "Duplicate container Plugin Attribut";
+                var activity = "Duplicate Online Config";
                 var value = "INSERT INTO online_config VALUES (" + null + ", '"+acqPartId+"', '"+
                     issPartId+"', '"+pluginId+"', '"+containerPluginName+"', '" +keytype+"', '"+
                     configKey+"', '"+configValue+"') ;";
@@ -956,10 +958,11 @@ module.exports = {
                 }
                 if(fieldDuplicate=='PARTICIPANT') contentDuplicate = participantId;
                 if(fieldDuplicate=='STAN') contentDuplicate = 0;
+                if(fieldDuplicate=='TCP_PART_ACQ') contentDuplicate = participantId;
                 
                 console.log("replaced containerPluginId: " + newCpId);
                 
-                var activity = "Duplicate container Plugin Attribut";
+                var activity = "Duplicate Container Plugin Attribut";
                 var value = "INSERT INTO container_plugin_attr VALUES (" + null + ",'"+newCpId+"','" + fieldDuplicate+"','" +contentDuplicate+ "');";
                 console.log("value: " + value);
                 this.addAudit(activity, value);

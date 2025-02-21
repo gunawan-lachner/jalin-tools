@@ -17,6 +17,7 @@
              </template>
              <b-dropdown-item href="#" to="/transaction">Transaksi</b-dropdown-item>
              <b-dropdown-item href="#" to="/transactionattr">Transaksi Atribut</b-dropdown-item>
+             <b-dropdown-item href="#" to="/trxEndpoint">Transaksi Endpoint</b-dropdown-item>
            </b-nav-item-dropdown>
            <!-- <b-nav-item href="#" to="/chart">Chart</b-nav-item> -->
            <!-- <b-nav-item href="#" to="/iot">MQTT</b-nav-item> -->

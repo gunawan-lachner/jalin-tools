@@ -724,6 +724,8 @@ module.exports = {
             this.getContainers();
             this.pluginStates = [''];
             this.getPluginStates();
+            this.plugins = [''];
+            this.getPlugins();
             this.retrieveData();
         },
         retreiveEditFormModal() {
@@ -772,10 +774,10 @@ module.exports = {
             var listen = data.item.port_listen;
             var connectTo = data.item.connectto_ipport;
             var instances = data.item.cnt_instances;
-            var maxInstances = data.item.max_instances;
+            var maxInstances = data.item.max_dynamic_instances;
             var flappingIgnoreTime = data.item.flapping_ignore_time;
             var responseTime = data.item.response_timeout;
-            var createDinamically = data.item.create_dynamically;
+            var createDinamically = data.item.dynamic_creation_mode;
             var comments = data.item.comments;
 
 
@@ -800,8 +802,8 @@ module.exports = {
                 ', container_plugin_name: ' + containerPluginName + ', queue: ' + queue + 
                 ', in_next_plugin: ' + inNextPlugin + ', out_next_plugin: ' + outNextPlugin + 
                 ', listen: ' + listen + ', connectto_ipport: ' + connectTo + ', cnt_instances: ' + instances + 
-                ', max_instances: ' + maxInstances + ', flapping_ignore_time: ' + flappingIgnoreTime + 
-                ', response_timeout: ' + responseTime + ', create_dynamically: ' + createDinamically + ', comments: ' + comments;
+                ', max_dynamic_instances: ' + maxInstances + ', flapping_ignore_time: ' + flappingIgnoreTime + 
+                ', response_timeout: ' + responseTime + ', dynamic_creation_mode: ' + createDinamically + ', comments: ' + comments;
 
             // this.formUpdate.state = data.item.state_startup;
             
@@ -818,9 +820,9 @@ module.exports = {
             } else {
                 this.prepareAudit();
                 if(this.formUpdate.isDuplicate){
-                    // this.create();
+                    this.update(false);
                 } else {
-                    this.update();
+                    this.update(true);
                 }
                 // this.audit();
                 // this.update();
@@ -873,8 +875,8 @@ module.exports = {
                 ', container_plugin_name: ' + containerPluginName + ', queue: ' + queue + 
                 ', in_next_plugin: ' + inNextPlugin + ', out_next_plugin: ' + outNextPlugin + 
                 ', listen: ' + listen + ', connectto_ipport: ' + connectTo + ', cnt_instances: ' + instances + 
-                ', max_instances: ' + maxInstances + ', flapping_ignore_time: ' + flappingIgnoreTime + 
-                ', response_timeout: ' + responseTime + ', create_dynamically: ' + createDinamically + ', comments: ' + comments;
+                ', max_dynamic_instances: ' + maxInstances + ', flapping_ignore_time: ' + flappingIgnoreTime + 
+                ', response_timeout: ' + responseTime + ', dynamic_creation_mode: ' + createDinamically + ', comments: ' + comments;
 
                 console.log('isDuplicate: False  --> ID ' + this.formUpdate.idCP);
                 activities = "Data Lama: " + this.dataLama + " ::: Data Baru: " + this.dataBaru;
@@ -1058,7 +1060,7 @@ module.exports = {
             })
             .catch(e=>{ console.log(error); });
         },
-        update() {
+        update(isUpdate) {
             // var idCP = this.datas.item.idCP;
             // var stateBaru = this.selectedPluginStateForm;
             // var portBaru = this.formUpdate.listen;
@@ -1084,7 +1086,6 @@ module.exports = {
             var state = this.selectedPluginStateForm;
             var nodeType = this.selectedNodeTypeForm;
 
-            console.log("Update: " + idCP);
             // var param = {                             //Create the JSon
             //     "jenis": "ContainerPluginUpdate",
             //     "idCP": idCP,
@@ -1098,9 +1099,18 @@ module.exports = {
             "', in_next_plugin = '" +inNextPlugin+ "', out_next_plugin = '" +outNextPlugin+ "', connectto_ipport = '" +
             connectTo+ "', comments = '"+comments+"', queue_threshold = '" +queue+ "', node_type = '" +
             nodeType+ "', startup_order = '" +startupOrder+ "', flapping_ignore_time = '" +flappingIgnoreTime+ 
-            "', max_instances = '" +maxInstances+ "', create_dynamically = '" +
+            "', max_dynamic_instances = '" +maxInstances+ "', dynamic_creation_mode = '" +
             createDinamically+ "', response_timeout = '" +responseTime+ "' WHERE id = "+idCP;
-            axios.post('/ecp/update', {jenis: 'ContainerPlugin',setValue: set, database: this.selectedDatabase})
+            var updateOrCreate = "";
+            if(isUpdate) {
+                console.log("Update: " + idCP);
+                updateOrCreate = "/ecp/update"
+            } else {
+                console.log("Create: " + idCP);
+                this.set = "";
+                updateOrCreate = "/ecp/create";
+            }
+            axios.post(updateOrCreate, {jenis: 'ContainerPlugin',setValue: set, database: this.selectedDatabase})
             .then(resp=>{ 
                 self.showNotification(); //shows notification of successful add
             })

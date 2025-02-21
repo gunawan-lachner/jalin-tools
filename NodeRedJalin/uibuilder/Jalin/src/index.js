@@ -7,7 +7,6 @@ import router from './router.js';
 const app1 = new Vue({
     el: '#app',
     components: {
-        'mycomponent': httpVueLoader('./components/mycomponent.vue'),
         'myheader': httpVueLoader('./components/myheader.vue'),
         'mylogin':httpVueLoader('./components/login.vue'),
         'myconfig':httpVueLoader('./components/Configurations.vue'),

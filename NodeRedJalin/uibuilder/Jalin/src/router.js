@@ -11,6 +11,7 @@ const RestartRen = httpVueLoader('./components/subcomponents/RestartRen.vue');
 const Transaction = httpVueLoader('./components/subcomponents/trx/Transaction.vue');
 const TransactionAttr = httpVueLoader('./components/subcomponents/trx/TransactionAttr.vue');
 const TransactionChart = httpVueLoader('./components/subcomponents/trx/TransactionChart.vue');
+const TransactionEndpoint = httpVueLoader('./components/subcomponents/trx/TransactionEndpoint.vue');
 
 // conf
 const KeyType = httpVueLoader('./components/subcomponents/conf/KeyType.vue');
@@ -129,6 +130,11 @@ export default {
             path:'/transactionChart',
             name:'TransactionChart',
             component: TransactionChart
+        },
+        {
+            path:'/trxEndpoint',
+            name:'TransactionEndpoint',
+            component: TransactionEndpoint
         },
         {
             path:'/keytype',
