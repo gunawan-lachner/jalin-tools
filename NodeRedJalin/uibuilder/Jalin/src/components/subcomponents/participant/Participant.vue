@@ -921,7 +921,7 @@ module.exports = {
                 } else {
                     acqPartId = this.formUpdate.id;
                 }
-                if(config_key.length > 0 && configKey == 'PARTICIPANT') issPartId = participantId;
+                if(configKey.length > 0 && configKey == 'PARTICIPANT') issPartId = participantId;
                 console.log('containerPluginName: ' + containerPluginName);
                 console.log('acqPartId: ' + acqPartId);
                 var activity = "Duplicate Online Config";
